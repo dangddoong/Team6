@@ -1,4 +1,4 @@
 package middleProjects.com.controller;
 
-public class jihwanController {
+public class HelloController {
 }
