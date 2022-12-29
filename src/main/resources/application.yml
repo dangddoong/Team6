@@ -1,0 +1,25 @@
+spring:
+
+  h2:
+    console:
+      enabled: true
+
+  jwt:
+    secret:
+      key: 7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA=
+  datasource:
+    url: jdbc:h2:mem:db;MODE=MYSQL;
+    username: sa
+    password:
+
+  thymeleaf:
+    cache: false
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
