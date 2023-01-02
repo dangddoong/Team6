@@ -28,9 +28,10 @@ public class Board extends BaseEntity{
 
     private Long recommendCount;
 
-    public Board(CreateBoardRequestDto createBoardRequestDto) {
+    public Board(CreateBoardRequestDto createBoardRequestDto,Member member) {
         this.title = createBoardRequestDto.getTitle();
         this.content = createBoardRequestDto.getContent();
+        this.member = member;
     }
 
     public void updateBoard(UpdateBoardRequestDto boardRequestDto) {

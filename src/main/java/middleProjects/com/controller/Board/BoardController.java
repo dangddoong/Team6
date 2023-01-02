@@ -1,4 +1,4 @@
-package middleProjects.com.controller.Board;
+package middleProjects.com.controller.board;
 
 import lombok.RequiredArgsConstructor;
 import middleProjects.com.dto.board.CreateBoardRequestDto;
@@ -32,7 +32,6 @@ public class BoardController {
     public RetrieveBoardResponseDto retrieveBoard(@PathVariable Long id) {
         return boardService.retrieveBoard(id);
     }
-
 
     @PutMapping("/{postId}") //게시글 수정
     public UpdateBoardResponseDto updateBoard(@PathVariable Long id, @RequestBody UpdateBoardRequestDto updateBoardRequestDto) {

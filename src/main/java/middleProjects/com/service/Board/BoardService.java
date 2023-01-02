@@ -3,7 +3,10 @@ package middleProjects.com.service.Board;
 import lombok.RequiredArgsConstructor;
 import middleProjects.com.dto.board.*;
 import middleProjects.com.entity.Board;
+import middleProjects.com.entity.Member;
 import middleProjects.com.repository.BoardRepository;
+import middleProjects.com.repository.MemberRepository;
+import middleProjects.com.security.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +18,13 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto) {
-        Board board = new Board(createBoardRequestDto);
+        String user = SecurityUtil.getCurrentMemberEmail();
+        Member member=memberRepository.findByUsername(user).orElseThrow(IllegalArgumentException::new);
+        Board board = new Board(createBoardRequestDto,member);
         boardRepository.save(board);
         return new CreateBoardResponseDto(board);
     }
@@ -26,7 +32,7 @@ public class BoardService {
     //게시물 전체 조회
     @Transactional
     public List<RetrieveBoardResponseDto> retrieveBoardList() {
-        List<Board> boardList = boardRepository.findAllByOrderByModifiedAtDesc();
+        List<Board> boardList = boardRepository.findAllByOrderByModDateDesc();
         List<RetrieveBoardResponseDto> retrieveBoardResponseDtoList = new ArrayList<>();
         for(Board board: boardList) {
             retrieveBoardResponseDtoList.add(new RetrieveBoardResponseDto(board));
