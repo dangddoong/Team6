@@ -11,8 +11,16 @@ import javax.persistence.*;
 public class Comment extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long id;
 
     @Column(nullable = false)
-    private String co
+    private String comment;
+    @Column(nullable = false)
+    private int recommendCount;
+
+//    private Board board;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 }
