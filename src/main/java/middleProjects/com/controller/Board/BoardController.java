@@ -29,17 +29,17 @@ public class BoardController {
     }
 
     @GetMapping("/{postId}") //아이디별 게시글 조회
-    public RetrieveBoardResponseDto retrieveBoard(@PathVariable Long id) {
-        return boardService.retrieveBoard(id);
+    public RetrieveBoardResponseDto retrieveBoard(@PathVariable Long postId) {
+        return boardService.retrieveBoard(postId);
     }
 
     @PutMapping("/{postId}") //게시글 수정
-    public UpdateBoardResponseDto updateBoard(@PathVariable Long id, @RequestBody UpdateBoardRequestDto updateBoardRequestDto) {
-        return boardService.updateBoard(id, updateBoardRequestDto);
+    public UpdateBoardResponseDto updateBoard(@PathVariable Long postId, @RequestBody UpdateBoardRequestDto updateBoardRequestDto) {
+        return boardService.updateBoard(postId, updateBoardRequestDto);
     }
 
     @DeleteMapping("/{postId}") //게시글 삭제
-    public  void deleteBoard(@PathVariable Long id) {
-        boardService.deleteBoard(id);
+    public void deleteBoard(@PathVariable Long postId) {
+        boardService.deleteBoard(postId);
     }
 }

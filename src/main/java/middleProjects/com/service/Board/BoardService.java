@@ -23,7 +23,7 @@ public class BoardService {
     @Transactional
     public CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto) {
         String user = SecurityUtil.getCurrentMemberEmail();
-        Member member=memberRepository.findByUsername(user).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findByUsername(user).orElseThrow(IllegalArgumentException::new);
         Board board = new Board(createBoardRequestDto,member);
         boardRepository.save(board);
         return new CreateBoardResponseDto(board);
@@ -50,6 +50,8 @@ public class BoardService {
     //게시물 삭제
     @Transactional
     public void deleteBoard(Long id) {
+        String user = SecurityUtil.getCurrentMemberEmail();
+
         Board board = boardRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("찾는 게시물이 존재하지 않습니다."));
         boardRepository.deleteById(id);
     }
@@ -57,8 +59,11 @@ public class BoardService {
     //게시물 수정
     @Transactional
     public UpdateBoardResponseDto updateBoard(Long id, UpdateBoardRequestDto boardRequestDto) {
+        String user = SecurityUtil.getCurrentMemberEmail();
+        Member member = memberRepository.findByUsername(user).orElseThrow(IllegalArgumentException::new);
         Board board = boardRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("찾는 게시물이 존재하지 않습니다."));
         board.updateBoard(boardRequestDto);
+        boardRepository.save(board);
         return new UpdateBoardResponseDto(board);
     }
 
