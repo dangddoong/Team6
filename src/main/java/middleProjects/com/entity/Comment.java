@@ -16,8 +16,8 @@ public class Comment extends BaseEntity{
     private Long id;
 
     @Column(nullable = false)
-    private String comment;
-    @Column(nullable = false)
+    private String contents;
+    @Column(nullable = true)
     private Long recommendCount;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = false)
@@ -26,10 +26,20 @@ public class Comment extends BaseEntity{
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    public Comment(String comment, Board board, Member member ){
-        this.comment = comment;
+    public Comment(String contents, Board board, Member member ){
+        this.contents = contents;
         this.board = board;
         this.member = member;
         // board에 list보고 맞춰가야함. ex) board.getCommentList().add(this);
+    }
+    public void memberAndCommentWriterEqualCheck(String username){
+        if(!this.member.getUsername().equals(username)){
+            //TODO: 추후에 핸들링 할 수 있도록 exception 수정요망.
+            throw new IllegalArgumentException("댓글작성자와 멤버 불일치");
+        }
+    }
+
+    public void updateComment(String contents) {
+        this.contents = contents;
     }
 }

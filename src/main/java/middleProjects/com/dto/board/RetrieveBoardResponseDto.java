@@ -7,6 +7,7 @@ import middleProjects.com.entity.Comment;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class RetrieveBoardResponseDto {
@@ -17,7 +18,7 @@ public class RetrieveBoardResponseDto {
     private final String content;
     private final LocalDateTime createDate;
     private final LocalDateTime modDate;
-//    private final List<CommentResponseDto> comments;
+    private final List<CommentResponseDto> comments;
 
     private final Long recommendCount;
 
@@ -28,7 +29,7 @@ public class RetrieveBoardResponseDto {
         this.content = board.getContent();
         this.createDate = board.getCreateDate();
         this.modDate = board.getModDate();
-//        this.comments = board.getComments();
+        this.comments = board.getComments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
         this.recommendCount = board.getRecommendCount();
     }
 
