@@ -1,11 +1,13 @@
 package middleProjects.com.dto.comment;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import middleProjects.com.entity.Comment;
 
 import java.time.LocalDateTime;
 
 @Getter
+//@RequiredArgsConstructor
 public class CommentResponseDto {
     private final Long commentId;
     private final String comment;
@@ -14,10 +16,10 @@ public class CommentResponseDto {
     private final LocalDateTime modDate;
     private final Long recommendCount;
 
-    CommentResponseDto(Comment comment, String commentWriter){
+    public CommentResponseDto(Comment comment){
         this.commentId = comment.getId();
-        this.comment = comment.getComment();
-        this.commentWriter = commentWriter;
+        this.comment = comment.getContents();
+        this.commentWriter = comment.getMember().getUsername();
         this.createDate = comment.getCreateDate();
         this.modDate = comment.getModDate();
         this.recommendCount = comment.getRecommendCount();
