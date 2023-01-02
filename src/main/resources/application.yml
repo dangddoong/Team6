@@ -2,11 +2,21 @@ spring:
   jwt:
     secretKey: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
 
+#  datasource:
+#    driverClassName: org.mariadb.jdbc.Driver
+#    url: jdbc:mariadb://localhost:3306/middleproject
+#    username: Kim
+#    password: 123123
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
   datasource:
-    driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/middleproject
-    username: Kim
-    password: 123123
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;MODE=MYSQL;
+    username: sa
+    password:
 
 
   jpa:
