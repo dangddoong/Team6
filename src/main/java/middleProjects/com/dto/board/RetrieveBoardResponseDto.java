@@ -3,7 +3,6 @@ package middleProjects.com.dto.board;
 import lombok.Getter;
 import middleProjects.com.dto.comment.CommentResponseDto;
 import middleProjects.com.entity.Board;
-import middleProjects.com.entity.Comment;
 
 import java.time.LocalDateTime;
 import java.util.List;

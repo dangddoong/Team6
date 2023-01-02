@@ -1,4 +1,4 @@
-package middleProjects.com.security.member;
+package middleProjects.com.security.members;
 
 import lombok.RequiredArgsConstructor;
 import middleProjects.com.entity.Member;
@@ -17,16 +17,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MemberDetailsService implements UserDetailsService {
 
-            private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                Member member = memberRepository.findByUsername(username).orElseThrow(()->new IllegalArgumentException("사용자 정보가 없습니다.")); // 이 부분 익셉션핸들러 만들기
-                return MemberDetails.builder()
-                        .username(member.getUsername())
-                        .password(member.getPassword())
-                        .authorities(member.getRole().stream()
-                                .map(auth -> new SimpleGrantedAuthority(auth.toString()))
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Member member = memberRepository.findByUsername(username).orElseThrow(()->new IllegalArgumentException("사용자 정보가 없습니다.")); // 이 부분 익셉션핸들러 만들기
+        return MemberDetails.builder()
+                .username(member.getUsername())
+                .password(member.getPassword())
+                .authorities(member.getRole().stream()
+                        .map(auth -> new SimpleGrantedAuthority(auth.toString()))
                         .collect(Collectors.toList()))
                 .build();
     }
