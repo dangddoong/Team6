@@ -5,7 +5,7 @@ import middleProjects.com.dto.member.info.ResponseDto;
 import middleProjects.com.dto.member.register.RegisterRequestDto;
 import middleProjects.com.dto.member.register.RegisterResponseDto;
 import middleProjects.com.entity.Member;
-import middleProjects.com.repository.MemberRepository;
+import middleProjects.com.security.repository.MemberRepository;
 import middleProjects.com.security.JwtTokenProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
