@@ -6,10 +6,8 @@ import java.time.LocalDateTime;
 
 @Getter
 public class CommentResponseDto {
-    private final Long id;
-    private final String comment;
-    private final LocalDateTime createDate;
-    private final  LocalDateTime modDate;
-
-
+    private  final Long id;
+    private  final String comment;
+    private  final LocalDateTime createDate;
+    private  final LocalDateTime modDate;
 }
