@@ -12,11 +12,10 @@ public class CreateBoardResponseDto {
     private final String title;
     private final String username;
     private final String content;
-//    private final List<CommentResponseDto> comments;
     private final LocalDateTime createDate;
     private final LocalDateTime modDate;
 
-    private final int recommendCount;
+    private final Long recommendCount;
 
     public CreateBoardResponseDto(Board board) {
         this.id = board.getId();
