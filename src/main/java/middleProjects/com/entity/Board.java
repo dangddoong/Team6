@@ -15,6 +15,7 @@ import java.util.List;
 public class Board extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="board_id")
     private Long id;
     @Column(nullable = false)
     private String title;
