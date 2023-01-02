@@ -5,8 +5,7 @@ spring:
       enabled: true
 
   jwt:
-    secret:
-      key: 7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA=
+    secretKey: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
   datasource:
     url: jdbc:h2:mem:db;MODE=MYSQL;
     username: sa
@@ -23,3 +22,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+
+server:
+  port:
+    8081
