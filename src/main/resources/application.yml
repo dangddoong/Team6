@@ -28,7 +28,3 @@ logging:
     org.hibernate:
       type.descriptor.sql: trace #show parameter binding
       SQL: DEBUG
-
-server:
-  port:
-    8081
