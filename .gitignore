@@ -5,7 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 /src/test/**
-src/main/java/middleProjects/com/security/**
+/src/main/resources/application.yml
+/src/build.gradle
 *.yml
 
 ### STS ###
@@ -28,8 +29,9 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-src/main/java/middleProjects/com/security/**
 *.yml
+/src/main/resources/application.yml
+/src/build.gradle
 
 ### NetBeans ###
 /nbproject/private/
@@ -40,3 +42,6 @@ src/main/java/middleProjects/com/security/**
 
 ### VS Code ###
 .vscode/
+/src/main/resources/application.yml
+*.yml
+/src/build.gradle
