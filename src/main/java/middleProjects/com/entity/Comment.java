@@ -17,7 +17,7 @@ public class Comment extends BaseEntity{
 
     @Column(nullable = false)
     private String contents;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long recommendCount;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = false)
