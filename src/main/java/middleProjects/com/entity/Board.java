@@ -32,4 +32,9 @@ public class Board extends BaseEntity{
         this.title = createBoardRequestDto.getTitle();
         this.content = createBoardRequestDto.getContent();
     }
+
+    public void updateBoard(UpdateBoardRequestDto boardRequestDto) {
+        this.title = boardRequestDto.getTitle();
+        this.content = boardRequestDto.getContent();
+    }
 }
