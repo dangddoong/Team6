@@ -1,6 +1,7 @@
 package middleProjects.com.security.members;
 
 import lombok.Builder;
+import middleProjects.com.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,13 +12,19 @@ public class MemberDetails implements UserDetails {
 
     private String username;
     private String password;
+    private Member member;
     List<GrantedAuthority> authorities;
 
+    public Member getMember(){
+        return member;
+    }
+
     @Builder
-    public MemberDetails(String username, String password, List<GrantedAuthority> authorities) {
+    public MemberDetails(String username, String password, List<GrantedAuthority> authorities, Member member) {
         this.username = username;
         this.password = password;
         this.authorities = authorities;
+        this.member = member;
     }
 
     @Override

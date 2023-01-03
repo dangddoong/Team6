@@ -28,6 +28,7 @@ public class MemberDetailsService implements UserDetailsService {
                 .authorities(member.getRole().stream()
                         .map(auth -> new SimpleGrantedAuthority(auth.toString()))
                         .collect(Collectors.toList()))
+                .member(member)
                 .build();
     }
 

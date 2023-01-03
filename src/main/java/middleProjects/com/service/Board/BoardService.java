@@ -1,12 +1,14 @@
 package middleProjects.com.service.Board;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import middleProjects.com.dto.board.*;
 import middleProjects.com.entity.Board;
 import middleProjects.com.entity.Member;
 import middleProjects.com.repository.BoardRepository;
 import middleProjects.com.repository.MemberRepository;
 import middleProjects.com.security.SecurityUtil;
+import middleProjects.com.security.members.MemberDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,18 +17,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
     @Transactional
-    public CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto) {
-        String user = SecurityUtil.getCurrentMemberEmail();
-        Member member = memberRepository.findByUsername(user).orElseThrow(IllegalArgumentException::new);
-        Board board = new Board(createBoardRequestDto,member);
+    public void createBoard(CreateBoardRequestDto createBoardRequestDto, Member member) {
+        Board board = new Board(createBoardRequestDto.getTitle(), createBoardRequestDto.getContent(), member);
+        // 과연 이렇게 객체를 넘기는게 맞나?
         boardRepository.save(board);
-        return new CreateBoardResponseDto(board);
     }
 
     //게시물 전체 조회
