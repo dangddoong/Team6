@@ -54,14 +54,15 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public String recommendComment(Long commentId, String username) {
-        Member member = memberRepository.findByUsername(username).orElseThrow(IllegalArgumentException::new);
-        Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(member, commentId);
+//        Member member = memberRepository.findByUsername(username).orElseThrow(IllegalArgumentException::new);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
+        Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(comment.getMember(), commentId);
         if(optionalCommentRecommend.isPresent()){
             commentRecommendationRepository.delete(optionalCommentRecommend.get());
             return "댓글 좋아요 취소완료" ;
         }
-        Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
-        CommentRecommendation commentRecommend = new CommentRecommendation(comment, member);
+
+        CommentRecommendation commentRecommend = new CommentRecommendation(comment, comment.getMember());
         commentRecommendationRepository.save(commentRecommend);
         return "댓글 좋아요 완료";
     }
