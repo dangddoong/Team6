@@ -44,6 +44,13 @@ public class CommentController {
         return new ResponseEntity<>("댓글 삭제완료", HttpStatus.OK);
     }
 
+    @PostMapping("/comments/recommendation/{commentId}")
+    public ResponseEntity<String> recommendComment(@PathVariable Long commentId){
+        String username = SecurityUtil.getCurrentMemberEmail();
+        String message = commentServiceImpl.recommendComment(commentId, username);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
     //     TODO: admin URL에 대해서는 논의가 필요합니다.
 //    @PutMapping("/admin/comments/{commentId}")
 //    public ResponseEntity adminUpdateComment(@PathVariable Long commentId,@RequestBody CommentRequestDto commentRequestDto) {

@@ -24,7 +24,7 @@ public class CommentResponseDto {
         this.commentWriter = comment.getMember().getUsername();
         this.createDate = comment.getCreateDate();
         this.modDate = comment.getModDate();
-        this.recommendCount = comment.getRecommendCount();
+        this.recommendCount = comment.getCommentRecommendationList().stream().count();
     }
 
 }

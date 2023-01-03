@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import middleProjects.com.dto.comment.CommentRequestDto;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -17,13 +19,15 @@ public class Comment extends BaseEntity{
 
     @Column(nullable = false)
     private String contents;
-    @Column(nullable = true)
-    private Long recommendCount;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<CommentRecommendation> commentRecommendationList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private Member member;
 
     public Comment(String contents, Board board, Member member ){
