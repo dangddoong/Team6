@@ -39,4 +39,8 @@ public class Board extends BaseEntity{
         this.title = boardRequestDto.getTitle();
         this.content = boardRequestDto.getContent();
     }
+
+    public void checkUser(Board board, String username) {
+        if(!board.getMember().getUsername().equals(username)) throw new IllegalArgumentException("유저 불일치");
+    }
 }
