@@ -1,10 +1,7 @@
 package middleProjects.com.controller.board;
 
 import lombok.RequiredArgsConstructor;
-import middleProjects.com.dto.board.CreateBoardRequestDto;
-import middleProjects.com.dto.board.RetrieveBoardResponseDto;
-import middleProjects.com.dto.board.UpdateBoardRequestDto;
-import middleProjects.com.dto.board.UpdateBoardResponseDto;
+import middleProjects.com.dto.board.*;
 import middleProjects.com.security.members.MemberDetails;
 import middleProjects.com.service.Board.BoardService;
 import org.springframework.http.HttpStatus;
@@ -21,9 +18,8 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("/") //게시글 작성
-    public HttpStatus createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
-       boardService.createBoard(createBoardRequestDto,memberDetails.getMember());
-       return HttpStatus.CREATED;
+    public CreateBoardResponseDto createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto) {
+        return boardService.createBoard(createBoardRequestDto);
     }
 
     @GetMapping("/") //전체 게시글 조회
