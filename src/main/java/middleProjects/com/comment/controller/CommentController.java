@@ -19,29 +19,23 @@ public class CommentController {
     private final CommentServiceImpl commentServiceImpl;
 
     @PostMapping("/comments/{boardId}")
-    public CreateCommentResponseDto createComment(@PathVariable Long boardId, @RequestBody CommentRequestDto commentRequestDto) {
-        String username = SecurityUtil.getCurrentMemberEmail();
+    public CreateCommentResponseDto createComment(@PathVariable Long boardId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
         String contents = commentRequestDto.getComment();
-        return commentServiceImpl.createComment(boardId, contents, username);
+        return commentServiceImpl.createComment(boardId, contents, memberDetails.getMember());
     }
 
     @PutMapping("/comments/{commentId}")
-    public CommentResponseDto updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
-//        commentService.update(id, dto);
-//        return ResponseEntity.ok(id);
-        String username = SecurityUtil.getCurrentMemberEmail();
+    public CommentResponseDto updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
         String contents = commentRequestDto.getComment();
-        return commentServiceImpl.updateComment(commentId, contents, username);
+        return commentServiceImpl.updateComment(commentId, contents, memberDetails.getMember());
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long commentId) {
-//        commentService.delete(id);
-//        return ResponseEntity.ok(id);
-        String username = SecurityUtil.getCurrentMemberEmail();
-        commentServiceImpl.deleteComment(commentId, username);
+    public ResponseEntity<String> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal MemberDetails memberDetails) {
+        commentServiceImpl.deleteComment(commentId, memberDetails.getMember());
         return new ResponseEntity<>("댓글 삭제완료", HttpStatus.OK);
     }
+
 
     @PostMapping("/comments/{commentId}/recommendation/")
     public ResponseEntity<String> recommendComment(@PathVariable Long commentId, @AuthenticationPrincipal MemberDetails memberDetails) {
