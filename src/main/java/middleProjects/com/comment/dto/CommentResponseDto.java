@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 //@RequiredArgsConstructor
 //@NoArgsConstructor(force=true)
 public class CommentResponseDto {
-
+    private final Long boardId;
     private final Long commentId;
     private final String comment;
     private final String commentWriter;
@@ -18,6 +18,7 @@ public class CommentResponseDto {
     private final Long recommendCount;
 
     public CommentResponseDto(Comment comment, Long recommendCount){
+        this.boardId = comment.getBoard().getId();
         this.commentId = comment.getId();
         this.comment = comment.getContents();
         this.commentWriter = comment.getMember().getUsername();

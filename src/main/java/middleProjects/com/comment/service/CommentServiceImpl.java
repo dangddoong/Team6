@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponseDto updateComment(Long commentId, String contents, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
-        comment.memberAndCommentWriterEqualCheck(member);
+        comment.memberAndCommentWriterEqualCheck(member.getId());
         comment.updateComment(contents);
         commentRepository.save(comment);
         Long commentRecommendationCount = commentRecommendationRepository.countByCommentId(commentId);
@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(Long commentId, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
-        comment.memberAndCommentWriterEqualCheck(member);
+        comment.memberAndCommentWriterEqualCheck(member.getId());
         commentRepository.deleteById(commentId);
     }
 
@@ -75,8 +75,12 @@ public class CommentServiceImpl implements CommentService {
         }
         commentRecommendationRepository.delete(optionalCommentRecommend.get());
     }
+<<<<<<< HEAD
 
     // 이런식으로 findBy 메서드 만들어서 코드 정리를 해볼게요.(성현)s
+=======
+    // 이런식으로 findBy 메서드 만들어서 코드 정리를 해볼게요.(성현)s -> 좋지 않음
+>>>>>>> bebe57ea432e853b1940ac28a61229089366c66f
 //    private Board findBoardByBoardId(Long boardId){
 //        return boardRepository.findById(boardId).orElseThrow(IllegalArgumentException::new);
 //    }

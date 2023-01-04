@@ -45,8 +45,8 @@ public class CommentController {
         return new ResponseEntity<>("댓글 좋아요 완료", HttpStatus.CREATED);
     }
 
-    @PostMapping("/comments/{commentId}/unRecommendation/")
-    public ResponseEntity<String> unRecommendComment(@PathVariable Long commentId, @AuthenticationPrincipal MemberDetails memberDetails) {
+    @PostMapping("/comments/{commentId}/unrecommendation/")
+    public ResponseEntity<String> unrecommendComment(@PathVariable Long commentId, @AuthenticationPrincipal MemberDetails memberDetails) {
         commentServiceImpl.unRecommendComment(commentId, memberDetails.getMember());
         return new ResponseEntity<>("댓글 좋아요 취소완료", HttpStatus.OK);
     }
