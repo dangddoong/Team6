@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface BoardRecommendationRepository extends JpaRepository<BoardRecommendation,Long> {
     Optional<BoardRecommendation> findByMemberAndBoardId(Member member, Long boardId);
-
+    Long countByBoardId(Long boardId);
 }

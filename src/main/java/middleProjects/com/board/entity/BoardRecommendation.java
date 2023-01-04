@@ -25,6 +25,5 @@ public class BoardRecommendation {
     public BoardRecommendation(Board board, Member member) {
         this.member = member;
         this.board = board;
-        this.board.getBoardRecommendationList().add(this);
     }
 }

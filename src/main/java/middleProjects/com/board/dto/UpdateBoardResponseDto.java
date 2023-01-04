@@ -20,14 +20,14 @@ public class UpdateBoardResponseDto {
 
     private final List<Comment> commentList;
 
-    public UpdateBoardResponseDto(Board board) {
+    public UpdateBoardResponseDto(Board board, Long recommendCount) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.username = board.getMember().getUsername();
         this.content = board.getContent();
         this.createDate = board.getCreateDate();
         this.modDate = board.getModDate();
-        this.recommendCount = board.getRecommendCount();
+        this.recommendCount = recommendCount;
         this.commentList = board.getComments();
     }
 }

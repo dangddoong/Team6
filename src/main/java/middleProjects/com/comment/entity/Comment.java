@@ -22,8 +22,8 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private String contents;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<CommentRecommendation> commentRecommendationList = new ArrayList<>();
+//    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+//    List<CommentRecommendation> commentRecommendationList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = false)

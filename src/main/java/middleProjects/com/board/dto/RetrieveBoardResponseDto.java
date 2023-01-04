@@ -21,15 +21,15 @@ public class RetrieveBoardResponseDto {
 
     private final Long recommendCount;
 
-    public RetrieveBoardResponseDto(Board board) {
+    public RetrieveBoardResponseDto(Board board, Long boardRecommendCount, List<CommentResponseDto> commentResponseDtoList) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.username = board.getMember().getUsername();
         this.content = board.getContent();
         this.createDate = board.getCreateDate();
         this.modDate = board.getModDate();
-        this.comments = board.getComments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
-        this.recommendCount = board.getRecommendCount();
+        this.comments = commentResponseDtoList;
+        this.recommendCount = boardRecommendCount;
     }
 
 

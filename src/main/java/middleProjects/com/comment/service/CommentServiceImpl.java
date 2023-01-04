@@ -2,6 +2,7 @@ package middleProjects.com.comment.service;
 
 import lombok.RequiredArgsConstructor;
 import middleProjects.com.comment.dto.CommentResponseDto;
+import middleProjects.com.comment.dto.CreateCommentResponseDto;
 import middleProjects.com.comment.entity.Comment;
 import middleProjects.com.comment.entity.CommentRecommendation;
 import middleProjects.com.member.entity.Member;
@@ -25,12 +26,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public CommentResponseDto createComment(Long boardId, String contents, String username) {
+    public CreateCommentResponseDto createComment(Long boardId, String contents, String username) {
         Board board = boardRepository.findById(boardId).orElseThrow(IllegalArgumentException::new);
         Member member = memberRepository.findByUsername(username).orElseThrow(IllegalArgumentException::new);
         Comment comment = new Comment(contents, board, member);
         commentRepository.save(comment);
-        return new CommentResponseDto(comment);
+        return new CreateCommentResponseDto(comment);
     }
 
     @Transactional
@@ -40,7 +41,8 @@ public class CommentServiceImpl implements CommentService {
         comment.memberAndCommentWriterEqualCheck(username);
         comment.updateComment(contents);
         commentRepository.save(comment);
-        return new CommentResponseDto(comment);
+        Long commentRecommendationCount = commentRecommendationRepository.countByCommentId(commentId);
+        return new CommentResponseDto(comment, commentRecommendationCount);
     }
 
     @Transactional
@@ -53,18 +55,23 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public String recommendComment(Long commentId, String username) {
-//        Member member = memberRepository.findByUsername(username).orElseThrow(IllegalArgumentException::new);
+    public void recommendComment(Long commentId, String username) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
         Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(comment.getMember(), commentId);
         if(optionalCommentRecommend.isPresent()){
-            commentRecommendationRepository.delete(optionalCommentRecommend.get());
-            return "댓글 좋아요 취소완료" ;
+            throw new IllegalArgumentException("이미 좋아요를 누르셨습니다.");
         }
-
         CommentRecommendation commentRecommend = new CommentRecommendation(comment, comment.getMember());
         commentRecommendationRepository.save(commentRecommend);
-        return "댓글 좋아요 완료";
+    }
+
+    public void unRecommendComment(Long commentId, String username) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
+        Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(comment.getMember(), commentId);
+        if(!optionalCommentRecommend.isPresent()){
+            throw new IllegalArgumentException("좋아요를 누르신 적이 없습니다.");
+        }
+        commentRecommendationRepository.delete(optionalCommentRecommend.get());
     }
     // 이런식으로 findBy 메서드 만들어서 코드 정리를 해볼게요.(성현)s
 //    private Board findBoardByBoardId(Long boardId){
