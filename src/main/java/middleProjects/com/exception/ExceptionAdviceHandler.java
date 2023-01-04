@@ -1,8 +1,4 @@
 package middleProjects.com.exception;
-
-
-import middleProjects.com.dto.ErrorDto;
-import middleProjects.com.exception.member.MemberException;
 import middleProjects.com.exception.member.MemberNicknameException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
