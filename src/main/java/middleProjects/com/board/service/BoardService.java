@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto);
+    CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto, Member Member);
 
 //    @Transactional
 //    public void createBoard(CreateBoardRequestDto createBoardRequestDto, Member member) {

@@ -13,7 +13,8 @@ public enum ExceptionStatus {
     // 500 -> INTERNAL SERVER ERROR : 서버에러
 
     MEMBER_IS_EXIST(409, " 이미 등록된 사용자 아이디입니다. "),
-    MEMBERNICKNAME_IS_EXIST(409, " 이미 등록된 닉네임 입니다. ");
+    MEMBERNICKNAME_IS_EXIST(409, " 이미 등록된 닉네임 입니다. "),
+    SERVER_ERROR(500, "관리자에게 문의 하세요");
 
 
     private final int statusCode;

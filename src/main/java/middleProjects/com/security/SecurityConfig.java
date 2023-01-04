@@ -43,9 +43,9 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint()) // 예외처리 핸들러 만들어야 함.
+                .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint()) // 굳이 새로운 커스텀 엑세스 핸들러를 만들어야할까?
                 .and()
-                .exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImpl()) // 이것도 마찬가지로 예외처리 핸들러 만들어야 함
+                .exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImpl()) // 이것도 마찬가지 굳이 새로 만들어야 하나?
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();

@@ -23,4 +23,5 @@ public class AdminServiceImpl implements AdminService {
         memberLists.forEach(member -> resultData.add(ResponseDto.of(member)));
         return resultData;
     }
+
 }

@@ -36,14 +36,13 @@ public class BoardServiceImpl implements BoardService {
 
     //게시글 생성
     @Transactional
-    public CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto) {
-        String user = SecurityUtil.getCurrentMemberEmail();
-        Member member = memberRepository.findByUsername(user).orElseThrow(IllegalArgumentException::new);
+    public CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto, Member member) {
         Board board = new Board(createBoardRequestDto.getTitle(), createBoardRequestDto.getContent(), member);
         boardRepository.save(board);
         return new CreateBoardResponseDto(board);
     }
 
+    // Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXN0ZXIiLCJpYXQiOjE2NzI4MDk2MTQsImV4cCI6MTY3MjgxMTQxNH0._q0Pa5LYOaIeLqeDNjYP5oOx3FTskip1MBPmXsynUBo
     //게시물 전체 조회
     @Transactional
     public List<RetrieveBoardResponseDto> retrieveBoardList() {

@@ -18,13 +18,17 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="board_id")
     private Long id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false)
     private String content;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name="member_id")
     private Member member;
+
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
@@ -36,7 +40,6 @@ public class Board extends BaseEntity {
         this.title = title;
         this.content = content;
         this.member = member;
-
     }
     /**
      // 김지환 주석 추가
