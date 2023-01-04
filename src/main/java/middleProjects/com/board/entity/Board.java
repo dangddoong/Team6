@@ -18,17 +18,13 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="board_id")
     private Long id;
-
     @Column(nullable = false)
     private String title;
-
     @Column(nullable = false)
     private String content;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
+    @JoinColumn(name = "member_id",nullable = false)
     private Member member;
-
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
@@ -40,6 +36,7 @@ public class Board extends BaseEntity {
         this.title = title;
         this.content = content;
         this.member = member;
+
     }
     /**
      // 김지환 주석 추가
@@ -58,8 +55,8 @@ public class Board extends BaseEntity {
     }
 
 
-    public void checkUser(Board board, String username) {
-        if (!board.getMember().getUsername().equals(username)) throw new IllegalArgumentException("유저 불일치");
+    public void checkUser(Board board, Member member) {
+        if (!board.getMember().getUsername().equals(member.getUsername())) throw new IllegalArgumentException("유저 불일치");
     }
 }
 

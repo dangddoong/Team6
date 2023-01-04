@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto);
+    CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto, Member member);
 
 //    @Transactional
 //    public void createBoard(CreateBoardRequestDto createBoardRequestDto, Member member) {
@@ -23,9 +23,9 @@ public interface BoardService {
 
     RetrieveBoardResponseDto retrieveBoard(Long id);
 
-    void deleteBoard(Long id);
+    void deleteBoard(Long id, Member member);
 
-    UpdateBoardResponseDto updateBoard(Long id, UpdateBoardRequestDto boardRequestDto);
+    UpdateBoardResponseDto updateBoard(Long id, UpdateBoardRequestDto boardRequestDto, Member member);
 
     void recommendBoard(Long postId, Member member);
 

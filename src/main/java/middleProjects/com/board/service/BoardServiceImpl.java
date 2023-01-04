@@ -12,11 +12,11 @@ import middleProjects.com.comment.repository.CommentRecommendationRepository;
 import middleProjects.com.comment.repository.CommentRepository;
 import middleProjects.com.member.entity.Member;
 import middleProjects.com.member.repository.MemberRepository;
-import middleProjects.com.security.SecurityUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +36,7 @@ public class BoardServiceImpl implements BoardService {
 
     //게시글 생성
     @Transactional
-    public CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto) {
-        String user = SecurityUtil.getCurrentMemberEmail();
-        Member member = memberRepository.findByUsername(user).orElseThrow(IllegalArgumentException::new);
+    public CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto, Member member) {
         Board board = new Board(createBoardRequestDto.getTitle(), createBoardRequestDto.getContent(), member);
         boardRepository.save(board);
         return new CreateBoardResponseDto(board);
@@ -80,21 +78,20 @@ public class BoardServiceImpl implements BoardService {
         // 게시물좋아요레포에서 CountBy로 게시물 좋아요 가져온다.
         return new RetrieveBoardResponseDto(board, recommendCount, commentList);
     }
+
     //게시물 삭제
     @Transactional
-    public void deleteBoard(Long boardId) {
+    public void deleteBoard(Long boardId, @AuthenticationPrincipal Member member) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("찾는 게시물이 존재하지 않습니다."));
-        String user = SecurityUtil.getCurrentMemberEmail();
-        board.checkUser(board, user);
+        board.checkUser(board, member);
         boardRepository.deleteById(boardId);
     }
 
     //게시물 수정
     @Transactional
-    public UpdateBoardResponseDto updateBoard(Long boardId, UpdateBoardRequestDto boardRequestDto) {
+    public UpdateBoardResponseDto updateBoard(Long boardId, UpdateBoardRequestDto boardRequestDto, Member member) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("찾는 게시물이 존재하지 않습니다."));
-        String user = SecurityUtil.getCurrentMemberEmail();
-        board.checkUser(board, user);
+        board.checkUser(board, member);
         board.updateBoard(boardRequestDto);
         boardRepository.save(board);
         Long boardRecommendCount = boardRecommendationRepository.countByBoardId(boardId);
