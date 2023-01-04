@@ -6,8 +6,10 @@ import middleProjects.com.comment.dto.CommentResponseDto;
 import middleProjects.com.comment.dto.CreateCommentResponseDto;
 import middleProjects.com.security.SecurityUtil;
 import middleProjects.com.comment.service.CommentServiceImpl;
+import middleProjects.com.security.members.MemberDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,13 +19,14 @@ public class CommentController {
     private final CommentServiceImpl commentServiceImpl;
 
     @PostMapping("/comments/{boardId}")
-    public CreateCommentResponseDto createComment(@PathVariable Long boardId, @RequestBody CommentRequestDto commentRequestDto){
+    public CreateCommentResponseDto createComment(@PathVariable Long boardId, @RequestBody CommentRequestDto commentRequestDto) {
         String username = SecurityUtil.getCurrentMemberEmail();
         String contents = commentRequestDto.getComment();
         return commentServiceImpl.createComment(boardId, contents, username);
     }
+
     @PutMapping("/comments/{commentId}")
-    public CommentResponseDto updateComment(@PathVariable Long commentId,@RequestBody CommentRequestDto commentRequestDto) {
+    public CommentResponseDto updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
 //        commentService.update(id, dto);
 //        return ResponseEntity.ok(id);
         String username = SecurityUtil.getCurrentMemberEmail();
@@ -41,16 +44,14 @@ public class CommentController {
     }
 
     @PostMapping("/comments/{commentId}/recommendation/")
-    public ResponseEntity<String> recommendComment(@PathVariable Long commentId) {
-        String username = SecurityUtil.getCurrentMemberEmail();
-        commentServiceImpl.recommendComment(commentId, username);
+    public ResponseEntity<String> recommendComment(@PathVariable Long commentId, @AuthenticationPrincipal MemberDetails memberDetails) {
+        commentServiceImpl.recommendComment(commentId, memberDetails.getMember());
         return new ResponseEntity<>("댓글 좋아요 완료", HttpStatus.CREATED);
     }
 
     @PostMapping("/comments/{commentId}/unRecommendation/")
-    public ResponseEntity<String> unRecommendComment(@PathVariable Long commentId) {
-        String username = SecurityUtil.getCurrentMemberEmail();
-        commentServiceImpl.unRecommendComment(commentId, username);
+    public ResponseEntity<String> unRecommendComment(@PathVariable Long commentId, @AuthenticationPrincipal MemberDetails memberDetails) {
+        commentServiceImpl.unRecommendComment(commentId, memberDetails.getMember());
         return new ResponseEntity<>("댓글 좋아요 취소완료", HttpStatus.OK);
     }
     //     TODO: admin URL에 대해서는 논의가 필요합니다.

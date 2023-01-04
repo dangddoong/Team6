@@ -47,8 +47,10 @@ public class BoardServiceImpl implements BoardService {
     //게시물 전체 조회
     @Transactional
     public List<RetrieveBoardResponseDto> retrieveBoardList() {
+        // 게시물도 페이징(10개/수정일자 내림차순), 댓글도 페이징(10개/수정일자 내림차순)
         Page<Board> boardPage = boardRepository.findAll(pageableSetting());
         List<RetrieveBoardResponseDto> retrieveBoardResponseDtoList = new ArrayList<>();
+
         for (Board board : boardPage) {
             Page<Comment> commentPage = commentRepository.findAllByBoard(board, pageableSetting());
             List<CommentResponseDto> commentList = new ArrayList<>();
@@ -56,7 +58,8 @@ public class BoardServiceImpl implements BoardService {
                 Long commentRecommendCount = commentRecommendationRepository.countByComment(comment);
                 commentList.add(new CommentResponseDto(comment, commentRecommendCount));
             }
-            retrieveBoardResponseDtoList.add(new RetrieveBoardResponseDto(board, 0L, commentList));
+            Long recommendCount = boardRecommendationRepository.countByBoardId(board.getId());
+            retrieveBoardResponseDtoList.add(new RetrieveBoardResponseDto(board, recommendCount, commentList));
         }
         return retrieveBoardResponseDtoList;
     }
@@ -73,9 +76,9 @@ public class BoardServiceImpl implements BoardService {
             Long commentRecommendCount = commentRecommendationRepository.countByComment(comment);
             commentList.add(new CommentResponseDto(comment, commentRecommendCount));
         }
+        Long recommendCount = boardRecommendationRepository.countByBoardId(boardId);
         // 게시물좋아요레포에서 CountBy로 게시물 좋아요 가져온다.
-        return new RetrieveBoardResponseDto(board, 0L, commentList);
-
+        return new RetrieveBoardResponseDto(board, recommendCount, commentList);
     }
 
     //게시물 삭제
@@ -102,18 +105,27 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public String recommendBoard(Long boardId) {
+    public void recommendBoard(Long boardId, Member member) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("찾는 게시물이 존재하지 않습니다."));
-//        String user = SecurityUtil.getCurrentMemberEmail();
-        Optional<BoardRecommendation> optionalBoardRecommend = boardRecommendationRepository.findByMemberAndBoardId(board.getMember(), boardId);
+        Optional<BoardRecommendation> optionalBoardRecommend = boardRecommendationRepository.findByMemberAndBoardId(member, boardId);
         if (optionalBoardRecommend.isPresent()) {
-            boardRecommendationRepository.delete(optionalBoardRecommend.get());
-            return "댓글 좋아요 취소완료";
+            throw new IllegalArgumentException("이미 좋아요를 누르셨습니다.");
         }
-        BoardRecommendation boardRecommendation = new BoardRecommendation(board, board.getMember());
+        BoardRecommendation boardRecommendation = new BoardRecommendation(board, member);
         boardRecommendationRepository.save(boardRecommendation);
-        return "댓글 좋아요 완료";
     }
+    @Transactional
+    @Override
+    public void unRecommendBoard(Long boardId, Member member){
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("찾는 게시물이 존재하지 않습니다."));
+        Optional<BoardRecommendation> optionalBoardRecommend = boardRecommendationRepository.findByMemberAndBoardId(member, boardId);
+        if (!optionalBoardRecommend.isPresent()) {
+            throw new IllegalArgumentException("좋아요를 누르신 적이 없습니다.");
+        }
+        boardRecommendationRepository.delete(optionalBoardRecommend.get());
+    }
+
+
 
     public Pageable pageableSetting() {
         Sort.Direction direction = Sort.Direction.DESC;

@@ -3,8 +3,13 @@ package middleProjects.com.board.controller;
 import lombok.RequiredArgsConstructor;
 import middleProjects.com.board.dto.*;
 import middleProjects.com.board.service.BoardServiceImpl;
+import middleProjects.com.security.members.MemberDetails;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.util.List;
 
 @RestController
@@ -40,7 +45,14 @@ public class BoardController {
     }
 
     @PostMapping("/recommendation/{boardId}")
-    public void recommendBoard(@PathVariable Long boardId) {
-        boardServiceImpl.recommendBoard(boardId);
+    public ResponseEntity<String> recommendBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetails memberDetails) {
+        boardServiceImpl.recommendBoard(boardId, memberDetails.getMember());
+        return new ResponseEntity<>("게시물 좋아요 완료", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/unrecommendation/{boardId}")
+    public ResponseEntity<String> unRecommendBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetails memberDetails){
+        boardServiceImpl.unRecommendBoard(boardId, memberDetails.getMember());
+        return new ResponseEntity<>("게시물 좋아요 취소완료", HttpStatus.OK);
     }
 }

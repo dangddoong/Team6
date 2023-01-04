@@ -55,20 +55,22 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public void recommendComment(Long commentId, String username) {
+    public void recommendComment(Long commentId, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
-        Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(comment.getMember(), commentId);
-        if(optionalCommentRecommend.isPresent()){
+        Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(member, commentId);
+        if (optionalCommentRecommend.isPresent()) {
             throw new IllegalArgumentException("이미 좋아요를 누르셨습니다.");
         }
-        CommentRecommendation commentRecommend = new CommentRecommendation(comment, comment.getMember());
+        CommentRecommendation commentRecommend = new CommentRecommendation(comment, member);
         commentRecommendationRepository.save(commentRecommend);
     }
 
-    public void unRecommendComment(Long commentId, String username) {
+    @Transactional
+    @Override
+    public void unRecommendComment(Long commentId, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
-        Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(comment.getMember(), commentId);
-        if(!optionalCommentRecommend.isPresent()){
+        Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(member, commentId);
+        if (!optionalCommentRecommend.isPresent()) {
             throw new IllegalArgumentException("좋아요를 누르신 적이 없습니다.");
         }
         commentRecommendationRepository.delete(optionalCommentRecommend.get());

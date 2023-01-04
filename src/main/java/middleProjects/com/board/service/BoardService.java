@@ -2,6 +2,7 @@ package middleProjects.com.board.service;
 
 
 import middleProjects.com.board.dto.*;
+import middleProjects.com.member.entity.Member;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public interface BoardService {
 
     UpdateBoardResponseDto updateBoard(Long id, UpdateBoardRequestDto boardRequestDto);
 
-    String recommendBoard(Long postId);
+    void recommendBoard(Long postId, Member member);
+
+    void unRecommendBoard(Long boardId, Member member);
 
 }
