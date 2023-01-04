@@ -21,6 +21,5 @@ public class CommentRecommendation {
     public CommentRecommendation(Comment comment, Member member) {
         this.member = member;
         this.comment = comment;
-        this.comment.getCommentRecommendationList().add(this);
     }
 }

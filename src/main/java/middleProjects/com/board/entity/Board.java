@@ -22,14 +22,15 @@ public class Board extends BaseEntity {
     private String title;
     @Column(nullable = false)
     private String content;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Member member;
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<BoardRecommendation> boardRecommendationList = new ArrayList<>();
+    // 조성현 - OneToMany는 신중하게 - 일단 주석처리했습니다.
+//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+//    List<BoardRecommendation> boardRecommendationList = new ArrayList<>();
 
     public Board(String title, String content, Member member) {
         this.title = title;
