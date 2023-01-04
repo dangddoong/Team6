@@ -26,9 +26,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public CreateCommentResponseDto createComment(Long boardId, String contents, String username) {
+    public CreateCommentResponseDto createComment(Long boardId, String contents, Member member) {
         Board board = boardRepository.findById(boardId).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findByUsername(username).orElseThrow(IllegalArgumentException::new);
         Comment comment = new Comment(contents, board, member);
         commentRepository.save(comment);
         return new CreateCommentResponseDto(comment);
@@ -36,9 +35,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public CommentResponseDto updateComment(Long commentId, String contents, String username) {
+    public CommentResponseDto updateComment(Long commentId, String contents, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
-        comment.memberAndCommentWriterEqualCheck(username);
+        comment.memberAndCommentWriterEqualCheck(member);
         comment.updateComment(contents);
         commentRepository.save(comment);
         Long commentRecommendationCount = commentRecommendationRepository.countByCommentId(commentId);
@@ -47,11 +46,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public void deleteComment(Long commentId, String username) {
+    public void deleteComment(Long commentId, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
-        comment.memberAndCommentWriterEqualCheck(username);
+        comment.memberAndCommentWriterEqualCheck(member);
         commentRepository.deleteById(commentId);
     }
+
 
     @Transactional
     @Override

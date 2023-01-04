@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -19,8 +18,9 @@ public class BoardController {
     private final BoardServiceImpl boardServiceImpl;
 
     @PostMapping("/") //게시글 작성
-    public CreateBoardResponseDto createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto) {
-        return boardServiceImpl.createBoard(createBoardRequestDto);
+    public ResponseEntity<String> createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+        boardServiceImpl.createBoard(createBoardRequestDto, memberDetails.getMember());
+        return new ResponseEntity<>("게시글 생성 완료",HttpStatus.OK);
     }
 
     @GetMapping("/") //전체 게시글 조회
@@ -34,13 +34,13 @@ public class BoardController {
     }
 
     @PutMapping("/{boardId}") //게시글 수정
-    public UpdateBoardResponseDto updateBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto updateBoardRequestDto) {
-        return boardServiceImpl.updateBoard(boardId, updateBoardRequestDto);
+    public UpdateBoardResponseDto updateBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto updateBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+        return boardServiceImpl.updateBoard(boardId, updateBoardRequestDto, memberDetails.getMember());
     }
 
     @DeleteMapping("/{boardId}") //게시글 삭제
-    public void deleteBoard(@PathVariable Long boardId) {
-        boardServiceImpl.deleteBoard(boardId);
+    public void deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetails memberDetails) {
+        boardServiceImpl.deleteBoard(boardId, memberDetails.getMember());
     }
 
     @PostMapping("/recommendation/{boardId}")

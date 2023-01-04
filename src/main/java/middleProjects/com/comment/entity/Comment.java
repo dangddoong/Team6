@@ -39,12 +39,13 @@ public class Comment extends BaseEntity {
         this.member = member;
         // board에 list보고 맞춰가야함. ex) board.getCommentList().add(this);
     }
-    public void memberAndCommentWriterEqualCheck(String username){
-        if(!this.member.getUsername().equals(username)){
+    public void memberAndCommentWriterEqualCheck(Member member){
+        if(!this.member.equals(member)){
             //TODO: 추후에 핸들링 할 수 있도록 exception 수정요망.
             throw new IllegalArgumentException("댓글작성자와 멤버 불일치");
         }
     }
+
 
     public void updateComment(String contents) {
         this.contents = contents;
