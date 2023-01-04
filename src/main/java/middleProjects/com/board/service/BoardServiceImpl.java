@@ -46,11 +46,11 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     public List<RetrieveBoardResponseDto> retrieveBoardList() {
         // 게시물도 페이징(10개/수정일자 내림차순), 댓글도 페이징(10개/수정일자 내림차순)
-        Page<Board> boardPage = boardRepository.findAll(pageableSetting());
+        Page<Board> boardPage = boardRepository.findAll(pageableSetting(1));
         List<RetrieveBoardResponseDto> retrieveBoardResponseDtoList = new ArrayList<>();
 
         for (Board board : boardPage) {
-            Page<Comment> commentPage = commentRepository.findAllByBoard(board, pageableSetting());
+            Page<Comment> commentPage = commentRepository.findAllByBoard(board, pageableSetting(1));
             List<CommentResponseDto> commentList = new ArrayList<>();
             for (Comment comment : commentPage) {
                 Long commentRecommendCount = commentRecommendationRepository.countByComment(comment);
@@ -62,13 +62,24 @@ public class BoardServiceImpl implements BoardService {
         return retrieveBoardResponseDtoList;
     }
 
+    @Transactional
+    public List<GetBoardResponseDto> getBoardListToPagination(int pageChoice){
+        Page<Board> boardPage = boardRepository.findAll(pageableSetting(pageChoice));
+        List<GetBoardResponseDto> getBoardResponseDtoList = new ArrayList<>();
+        for(Board board: boardPage){
+            Long recommendCount = boardRecommendationRepository.countByBoardId(board.getId());
+            getBoardResponseDtoList.add(new GetBoardResponseDto(board, recommendCount));
+        }
+        return getBoardResponseDtoList;
+    }
+
 
     //게시물 하나 조회
     @Transactional
     public RetrieveBoardResponseDto retrieveBoard(Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
 
-        Page<Comment> commentPage = commentRepository.findAllByBoard(board, pageableSetting());
+        Page<Comment> commentPage = commentRepository.findAllByBoard(board, pageableSetting(1));
         List<CommentResponseDto> commentList = new ArrayList<>();
         for (Comment comment : commentPage) {
             Long commentRecommendCount = commentRecommendationRepository.countByComment(comment);
@@ -123,10 +134,10 @@ public class BoardServiceImpl implements BoardService {
 
 
 
-    public Pageable pageableSetting() {
+    public Pageable pageableSetting(int pageChoice) {
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "modDate");
-        Pageable pageable = PageRequest.of(0, 10, sort);
+        Pageable pageable = PageRequest.of(pageChoice-1, 10, sort);
         return pageable;
     }
 }

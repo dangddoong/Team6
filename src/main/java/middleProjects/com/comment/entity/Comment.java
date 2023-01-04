@@ -23,14 +23,11 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private String contents;
 
-//    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-//    List<CommentRecommendation> commentRecommendationList = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "userIds", nullable = false)
     private Member member;
 
     public Comment(String contents, Board board, Member member ){
@@ -39,8 +36,8 @@ public class Comment extends BaseEntity {
         this.member = member;
         // board에 list보고 맞춰가야함. ex) board.getCommentList().add(this);
     }
-    public void memberAndCommentWriterEqualCheck(Member member){
-        if(!this.member.equals(member)){
+    public void memberAndCommentWriterEqualCheck(Long memberId){
+        if(!this.member.getId().equals(memberId)){
             //TODO: 추후에 핸들링 할 수 있도록 exception 수정요망.
             throw new IllegalArgumentException("댓글작성자와 멤버 불일치");
         }

@@ -20,7 +20,7 @@ public interface BoardService {
 
     List<RetrieveBoardResponseDto> retrieveBoardList();
 
-
+    List<GetBoardResponseDto> getBoardListToPagination(int pageChoice);
     RetrieveBoardResponseDto retrieveBoard(Long id);
 
     void deleteBoard(Long id, Member member);
