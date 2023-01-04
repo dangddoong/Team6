@@ -1,7 +1,7 @@
 package middleProjects.com.security.members;
 
 import lombok.Builder;
-import middleProjects.com.entity.Member;
+import middleProjects.com.member.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

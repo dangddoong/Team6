@@ -1,8 +1,8 @@
 package middleProjects.com.security.members;
 
 import lombok.RequiredArgsConstructor;
-import middleProjects.com.entity.Member;
-import middleProjects.com.repository.MemberRepository;
+import middleProjects.com.member.entity.Member;
+import middleProjects.com.member.repository.MemberRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
