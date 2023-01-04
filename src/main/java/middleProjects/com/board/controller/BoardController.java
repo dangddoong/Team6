@@ -2,9 +2,7 @@ package middleProjects.com.board.controller;
 
 import lombok.RequiredArgsConstructor;
 import middleProjects.com.board.dto.*;
-import middleProjects.com.board.service.BoardService;
-import middleProjects.com.security.members.MemberDetails;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import middleProjects.com.board.service.BoardServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,34 +12,35 @@ import java.util.List;
 @RequestMapping("/api/boards")
 public class BoardController {
 
-    private final BoardService boardService;
+    private final BoardServiceImpl boardServiceImpl;
 
     @PostMapping("/") //게시글 작성
-    public CreateBoardResponseDto createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
-        return boardService.saveBoard(createBoardRequestDto,memberDetails.getMember());
+    public CreateBoardResponseDto createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto) {
+        return boardServiceImpl.createBoard(createBoardRequestDto);
     }
 
     @GetMapping("/") //전체 게시글 조회
     public List<RetrieveBoardResponseDto> retrieveBoardList() {
-        return boardService.retrieveBoardList();
+        return boardServiceImpl.retrieveBoardList();
     }
 
-    @GetMapping("/{postId}") // 아이디별 게시글 조회
-    public RetrieveBoardResponseDto retrieveBoard(@PathVariable Long postId) {
-        return boardService.retrieveBoard(postId);
+    @GetMapping("/{boardId}") //아이디별 게시글 조회
+    public RetrieveBoardResponseDto retrieveBoard(@PathVariable Long boardId) {
+        return boardServiceImpl.retrieveBoard(boardId);
     }
 
-    @PutMapping("/{postId}") //게시글 수정
-    public UpdateBoardResponseDto updateBoard(@PathVariable Long postId, @RequestBody UpdateBoardRequestDto updateBoardRequestDto) {
-        return boardService.updateBoard(postId, updateBoardRequestDto);
+    @PutMapping("/{boardId}") //게시글 수정
+    public UpdateBoardResponseDto updateBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto updateBoardRequestDto) {
+        return boardServiceImpl.updateBoard(boardId, updateBoardRequestDto);
     }
 
-    @DeleteMapping("/{postId}") //게시글 삭제
-    public void deleteBoard(@PathVariable Long postId) {
-        boardService.deleteBoard(postId);
+    @DeleteMapping("/{boardId}") //게시글 삭제
+    public void deleteBoard(@PathVariable Long boardId) {
+        boardServiceImpl.deleteBoard(boardId);
     }
 
-
-
-
+    @PostMapping("/recommendation/{boardId}")
+    public void recommendBoard(@PathVariable Long boardId) {
+        boardServiceImpl.recommendBoard(boardId);
+    }
 }
