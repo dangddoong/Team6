@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-public class BoardRecommend {
+public class BoardRecommendation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,4 +21,10 @@ public class BoardRecommend {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Board board;
+
+    public BoardRecommendation(Board board, Member member) {
+        this.member = member;
+        this.board = board;
+        this.board.getBoardRecommendationList().add(this);
+    }
 }
