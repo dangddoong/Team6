@@ -10,11 +10,13 @@ import middleProjects.com.member.entity.Member;
 @NoArgsConstructor(force = true)
 public class ResponseDto {
 
+    private final Long id;
     private final String username; // 사용자 id
     private final String name; // 사용자 이름
     private final String role;  // 사용자 role
 
     public ResponseDto(Member member){
+        this.id = member.getId();
         this.username = member.getUsername();
         this.name = member.getName();
         this.role = member.getRole().toString();

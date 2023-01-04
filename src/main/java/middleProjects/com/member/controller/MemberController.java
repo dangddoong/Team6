@@ -53,9 +53,11 @@ public class MemberController {
         return ResponseEntity.status(200).body(data);
     }
 
+
     @GetMapping("/info/myBoard") // 내가 작성한 board 불러오기
     public ResponseEntity<List<BoardResponseDto>> getMyBoardInfo(@AuthenticationPrincipal MemberDetails memberDetails){
         return ResponseEntity.status(200).body(memberServiceImpl.getMyBoard(memberDetails.getMember().getUsername()));
     }
+
 
 }

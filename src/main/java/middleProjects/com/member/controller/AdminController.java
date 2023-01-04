@@ -28,10 +28,10 @@ public class AdminController {
         return ResponseEntity.status(200).body(data);
     }
 
-//    @DeleteMapping("deletByMemberBoard")
-//    public HttpStatus deleteMemberBoard(@PathVariable Long id) {
-//        adminServiceImpl.deleteMemberBoard(id);
-//        return HttpStatus.ACCEPTED;
-//    }
+    @DeleteMapping("deleteBoard/{id}")
+    public HttpStatus deleteMemberBoard(@PathVariable Long id) {
+        adminServiceImpl.deleteMemberBoard(id);
+        return HttpStatus.ACCEPTED;
+    }
 
 }

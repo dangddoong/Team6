@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @RequiredArgsConstructor
 public class Comment extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")

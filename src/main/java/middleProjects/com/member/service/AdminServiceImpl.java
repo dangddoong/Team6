@@ -1,6 +1,7 @@
 package middleProjects.com.member.service;
 
 import lombok.RequiredArgsConstructor;
+import middleProjects.com.board.repository.BoardRepository;
 import middleProjects.com.member.dto.info.ResponseDto;
 import middleProjects.com.member.entity.Member;
 import middleProjects.com.member.repository.MemberRepository;
@@ -15,6 +16,7 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
 
     private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
 
     @Override
     public List<ResponseDto> getMemberList() {
@@ -24,4 +26,8 @@ public class AdminServiceImpl implements AdminService {
         return resultData;
     }
 
+    @Override
+    public void deleteMemberBoard(Long id) {
+        boardRepository.deleteById(id);
+    }
 }
