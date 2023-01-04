@@ -54,4 +54,5 @@ public class BoardController {
         boardServiceImpl.unRecommendBoard(boardId, memberDetails.getMember());
         return new ResponseEntity<>("게시물 좋아요 취소완료", HttpStatus.OK);
     }
+
 }

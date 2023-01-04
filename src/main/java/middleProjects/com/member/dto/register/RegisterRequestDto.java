@@ -21,6 +21,7 @@ public class RegisterRequestDto {
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
     private final String password;
 
+     // 낫널
     private final String nickName;
 
     private final String name;

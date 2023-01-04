@@ -20,7 +20,9 @@ public class CommentController {
 
     @PostMapping("/comments/{boardId}")
     public CreateCommentResponseDto createComment(@PathVariable Long boardId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+
         String contents = commentRequestDto.getComment();
+
         return commentServiceImpl.createComment(boardId, contents, memberDetails.getMember());
     }
 

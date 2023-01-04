@@ -1,6 +1,8 @@
 package middleProjects.com.security;
 
 import lombok.RequiredArgsConstructor;
+import middleProjects.com.exception.security.CustomAccessDeniedHandler;
+import middleProjects.com.exception.security.CustomAuthenticationEntryPoint;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,9 +45,9 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint()) // 굳이 새로운 커스텀 엑세스 핸들러를 만들어야할까?
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
-                .exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImpl()) // 이것도 마찬가지 굳이 새로 만들어야 하나?
+                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();

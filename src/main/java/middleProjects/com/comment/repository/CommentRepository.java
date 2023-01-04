@@ -9,8 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    // findByBoardId
+
     List<Comment> findAllByBoardIdOrderByModDateDesc(Long boardId);
     Page<Comment> findAllByBoard(Board board, Pageable pageable);
+
+    List<Comment> findAllByBoard(Board board);
+
+    Long deleteByBoard(Board board);
 
 }

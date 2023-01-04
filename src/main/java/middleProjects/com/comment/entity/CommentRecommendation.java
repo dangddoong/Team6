@@ -11,10 +11,13 @@ public class CommentRecommendation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id",nullable = false)
     private Member member;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "comment_id", nullable = false)
     private Comment comment;
 

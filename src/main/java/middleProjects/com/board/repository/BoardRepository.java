@@ -13,8 +13,8 @@ import java.util.Optional;
 public interface BoardRepository extends JpaRepository<Board,Long> {
 
     List<Board> findAllByOrderByModDateDesc();
-    Page<Board> findAll(Pageable pageable);
 
+    Page<Board> findAll(Pageable pageable);
 
     @Query("select b from Board b join Member m on b.member.username=m.username where b.member.username=:username")
     Optional<List<Board>> findByMember(@Param("username") String username);

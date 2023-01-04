@@ -25,4 +25,6 @@ public interface MemberService {
     void checkByMemberNickName(String nickName); // 사용자 닉네임 체크
 
     List<BoardResponseDto> getMyBoard(String username); // 사용자 정보로 board 정보 가지고오기
+
+
 }

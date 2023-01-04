@@ -18,7 +18,7 @@ public class BoardRecommendation {
     @JoinColumn(nullable = false)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(nullable = false)
     private Board board;
 

@@ -11,8 +11,9 @@ public interface AdminService {
 
     List<ResponseDto> getMemberList();
 
-    void deleteMemberBoard(Long id); // 여기서는 누구나 지울 수 있어야 합니다.
+    void deleteMemberBoard(Long id); // 누구나 지울 수 있어야 함 -> 그래서 검증로직 필요 x, 이미 이 컨트롤러는 admin만 타고 올 수 있기에?
 
+    void deleteMemberComment(Long id);
 
 
     // 기존의 게시물과 댓글은 사용자만 지우거나 수정할 수 있어야 한다. -> 어드민은 가능하다 (어떻게 권한으로 처리할 것인지. )

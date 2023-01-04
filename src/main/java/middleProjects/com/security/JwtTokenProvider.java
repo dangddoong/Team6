@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +24,7 @@ import java.util.Date;
 @Setter
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenProvider {
 
     @Value("${spring.jwt.secretKey}")
@@ -35,25 +37,23 @@ public class JwtTokenProvider {
     private final UserDetailsService userDetailsService;
 
 
-
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
 
-
     // 토큰 생성
     public String createToken(String email) {
         Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();
-        return BEARER_PREFIX+
+        return BEARER_PREFIX +
                 Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now) // 발급 시간
-                .setExpiration(new Date(now.getTime() + tokenValidTime))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
+                        .setClaims(claims)
+                        .setIssuedAt(now) // 발급 시간
+                        .setExpiration(new Date(now.getTime() + tokenValidTime))
+                        .signWith(SignatureAlgorithm.HS256, secretKey)
+                        .compact();
     }
 
 
@@ -85,12 +85,11 @@ public class JwtTokenProvider {
     // 이걸 가지고 헤더에서 토큰을 꺼내옴
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
-        if(StringUtils.hasText(bearerToken)&&bearerToken.startsWith(BEARER_PREFIX)){
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
         return null;
     }
-
 
     // 토큰의 유효성 검사
     public boolean validateTokenExpiration(String token) {

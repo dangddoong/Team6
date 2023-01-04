@@ -75,9 +75,11 @@ public class CommentServiceImpl implements CommentService {
         }
         commentRecommendationRepository.delete(optionalCommentRecommend.get());
     }
+
     // 이런식으로 findBy 메서드 만들어서 코드 정리를 해볼게요.(성현)s
 //    private Board findBoardByBoardId(Long boardId){
 //        return boardRepository.findById(boardId).orElseThrow(IllegalArgumentException::new);
 //    }
+
 }
 

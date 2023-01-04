@@ -121,8 +121,6 @@ public class BoardServiceImpl implements BoardService {
         boardRecommendationRepository.delete(optionalBoardRecommend.get());
     }
 
-
-
     public Pageable pageableSetting() {
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "modDate");
