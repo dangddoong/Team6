@@ -44,7 +44,10 @@ public class Member extends BaseEntity {
         this.password = password;
         this.name=name;
         this.nickName = nickName;
-        this.role= Collections.singletonList(RoleType.ROLE_USER);
+        if(username.equals("master"))
+            this.role=Collections.singletonList(RoleType.ROLE_ADMIN);
+        else
+            this.role= Collections.singletonList(RoleType.ROLE_USER);
     }
 
     public void addRole(RoleType roleType){

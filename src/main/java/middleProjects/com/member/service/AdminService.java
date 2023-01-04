@@ -1,8 +1,13 @@
 package middleProjects.com.member.service;
 
 
+import middleProjects.com.member.dto.info.ResponseDto;
+
+import java.util.List;
 
 public interface AdminService {
+
+    List<ResponseDto> getMemberList();
 
     // admin 기능에서의 고민
     // 과연 admin은 어떤 기능을 해야할까?
