@@ -36,13 +36,14 @@ public class BoardServiceImpl implements BoardService {
 
     //게시글 생성
     @Transactional
-    public CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto, Member member) {
+    public CreateBoardResponseDto createBoard(CreateBoardRequestDto createBoardRequestDto) {
+        String user = SecurityUtil.getCurrentMemberEmail();
+        Member member = memberRepository.findByUsername(user).orElseThrow(IllegalArgumentException::new);
         Board board = new Board(createBoardRequestDto.getTitle(), createBoardRequestDto.getContent(), member);
         boardRepository.save(board);
         return new CreateBoardResponseDto(board);
     }
 
-    // Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXN0ZXIiLCJpYXQiOjE2NzI4MDk2MTQsImV4cCI6MTY3MjgxMTQxNH0._q0Pa5LYOaIeLqeDNjYP5oOx3FTskip1MBPmXsynUBo
     //게시물 전체 조회
     @Transactional
     public List<RetrieveBoardResponseDto> retrieveBoardList() {
@@ -79,7 +80,6 @@ public class BoardServiceImpl implements BoardService {
         // 게시물좋아요레포에서 CountBy로 게시물 좋아요 가져온다.
         return new RetrieveBoardResponseDto(board, recommendCount, commentList);
     }
-
     //게시물 삭제
     @Transactional
     public void deleteBoard(Long boardId) {
