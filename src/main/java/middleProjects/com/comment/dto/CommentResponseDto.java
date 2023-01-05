@@ -17,6 +17,7 @@ public class CommentResponseDto {
     private final LocalDateTime modDate;
     private final Long recommendCount;
 
+
     public CommentResponseDto(Comment comment, Long recommendCount){
         this.boardId = comment.getBoard().getId();
         this.commentId = comment.getId();

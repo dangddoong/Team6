@@ -1,12 +1,10 @@
 package middleProjects.com.comment.controller;
 
 import lombok.RequiredArgsConstructor;
-import middleProjects.com.comment.dto.CommentRequestDto;
-import middleProjects.com.comment.dto.CommentResponseDto;
-import middleProjects.com.comment.dto.CreateCommentResponseDto;
-import middleProjects.com.security.SecurityUtil;
+import middleProjects.com.comment.dto.*;
 import middleProjects.com.comment.service.CommentServiceImpl;
 import middleProjects.com.security.members.MemberDetails;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,13 +20,12 @@ public class CommentController {
 
     @PostMapping("/comments/{boardId}")
     public CreateCommentResponseDto createComment(@PathVariable Long boardId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
-
         String contents = commentRequestDto.getComment();
-
         return commentServiceImpl.createComment(boardId, contents, memberDetails.getMember());
     }
+
     @GetMapping("/comments/{boardId}/pagination/{pageChoice}")
-    public List<CommentResponseDto> getCommentListToPagination(@PathVariable Long boardId, @PathVariable int pageChoice){
+    public List<CommentResponseDto> getCommentListToPagination(@PathVariable Long boardId, @PathVariable int pageChoice) {
         return commentServiceImpl.getCommentListToPagination(pageChoice, boardId);
     }
 
@@ -56,7 +53,14 @@ public class CommentController {
         commentServiceImpl.unRecommendComment(commentId, memberDetails.getMember());
         return new ResponseEntity<>("댓글 좋아요 취소완료", HttpStatus.OK);
     }
+
+    @PostMapping("/comments/{commentId}/reply")
+    public HttpStatus addReply(@PathVariable Long commentId, @AuthenticationPrincipal MemberDetails memberDetails, @RequestBody ReplyRequestDto replyRequestDto) {
+        commentServiceImpl.addReply(commentId, memberDetails.getMember(), replyRequestDto.getComment());
+        return HttpStatus.OK;
+    }
     //     TODO: admin URL에 대해서는 논의가 필요합니다.
+
 //    @PutMapping("/admin/comments/{commentId}")
 //    public ResponseEntity adminUpdateComment(@PathVariable Long commentId,@RequestBody CommentRequestDto commentRequestDto) {
 //       commentService.update(id, dto);
@@ -65,4 +69,9 @@ public class CommentController {
 //        return commentServiceImpl.adminUpdateComment(commentId, comment);
 //    }
 
+    @GetMapping("/comments/{id}")
+    public ResponseEntity<jjCommentsResponseDto> getCommentOne(@PathVariable Long id) {
+        jjCommentsResponseDto data = commentServiceImpl.getOne(id);
+        return ResponseEntity.status(200).body(data);
+    }
 }

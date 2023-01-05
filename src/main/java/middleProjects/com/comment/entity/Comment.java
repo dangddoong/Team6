@@ -1,7 +1,7 @@
 package middleProjects.com.comment.entity;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import middleProjects.com.board.entity.BaseEntity;
 import middleProjects.com.board.entity.Board;
 import middleProjects.com.member.entity.Member;
@@ -12,7 +12,8 @@ import java.util.List;
 
 @Getter
 @Entity
-@RequiredArgsConstructor
+@NoArgsConstructor
+//@ToString(exclude = {"childs"})
 public class Comment extends BaseEntity {
 
     @Id
@@ -24,22 +25,31 @@ public class Comment extends BaseEntity {
     private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id", nullable = false)
+    @JoinColumn(name = "board_id")
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userIds", nullable = false)
     private Member member;
 
-//    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
-//    private List<CommentRecommendation> recommendations = new ArrayList<>();
+    // 내가 생각하기엔 대댓글은 comment가 존재해야 이 대댓글도 존재하기에 ManyToOne이 맞는것 같은데..
+    // 어떠한 방식이 좋을까..
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name="parent_id")
+    private Long parent;
 
+//    @OneToMany(mappedBy = "parent")
+//    private List<Comment> childs = new ArrayList<>();
+
+
+    // 일반 게시글 작성
     public Comment(String contents, Board board, Member member ){
         this.contents = contents;
         this.board = board;
         this.member = member;
-        // board에 list보고 맞춰가야함. ex) board.getCommentList().add(this);
+        this.parent = 0L;
     }
+
     public void memberAndCommentWriterEqualCheck(Long memberId){
         if(!this.member.getId().equals(memberId)){
             //TODO: 추후에 핸들링 할 수 있도록 exception 수정요망.
@@ -47,8 +57,17 @@ public class Comment extends BaseEntity {
         }
     }
 
-
     public void updateComment(String contents) {
         this.contents = contents;
     }
+    // 순서 : boardid,사용자, 그리고 내용
+    // 대댓글 작성
+
+    public Comment(String comment,Board board, Member member, Long commentParentId){
+        this.contents = comment;
+        this.board = board;
+        this.member=member;
+        this.parent=commentParentId;
+    }
+
 }

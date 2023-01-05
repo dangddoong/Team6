@@ -1,16 +1,20 @@
 package middleProjects.com.comment.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import middleProjects.com.board.entity.Board;
+import middleProjects.com.board.repository.BoardRepository;
 import middleProjects.com.comment.dto.CommentResponseDto;
 import middleProjects.com.comment.dto.CreateCommentResponseDto;
+import middleProjects.com.comment.dto.ReplyRequestDto;
+import middleProjects.com.comment.dto.jjCommentsResponseDto;
 import middleProjects.com.comment.entity.Comment;
 import middleProjects.com.comment.entity.CommentRecommendation;
+import middleProjects.com.comment.repository.CommentRecommendationRepository;
+import middleProjects.com.comment.repository.CommentRepository;
 import middleProjects.com.exception.CustomException;
 import middleProjects.com.exception.ExceptionStatus;
 import middleProjects.com.member.entity.Member;
-import middleProjects.com.board.repository.BoardRepository;
-import middleProjects.com.comment.repository.CommentRecommendationRepository;
-import middleProjects.com.comment.repository.CommentRepository;
 import middleProjects.com.member.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import middleProjects.com.board.entity.Board;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
@@ -107,5 +111,24 @@ public class CommentServiceImpl implements CommentService {
         return pageable;
     }
 
+    @Override
+    @Transactional
+    public void addReply(Long commentId, Member member, String comment) {
+        // 과연 계층간 어떻게 계단식으로 구현할 것인가?
+        Comment parentComment = commentRepository.findById(commentId).orElseThrow(()->new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
+        Comment reply = new Comment(comment, parentComment.getBoard(),member, parentComment.getId());
+        commentRepository.save(reply);
+    }
+
+//    @Override
+//    public jjCommentsResponseDto getOne(Long id) {
+//        // 여기서 넘어온 id는 comment id다 -> 이 comment id는 부모 댓글을 의미할 것이다. 그런
+//        Comment comment = commentRepository.findById(id).orElseThrow(()->new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
+//        if(comment.getParent()==0){
+//
+//        }else{
+//            throw new IllegalStateException("오류오류오류!!!!");
+//        }
+//    }
 }
 

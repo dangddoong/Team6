@@ -18,10 +18,13 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="board_id")
     private Long id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false)
     private String content;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id",nullable = false)
     private Member member;
@@ -52,9 +55,9 @@ public class Board extends BaseEntity {
         this.content = boardRequestDto.getContent();
     }
 
-
     public void checkUser(Board board, Member member) {
         if (!board.getMember().getUsername().equals(member.getUsername())) throw new IllegalArgumentException("유저 불일치");
     }
+
 }
 
