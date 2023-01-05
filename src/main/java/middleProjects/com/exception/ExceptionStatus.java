@@ -17,6 +17,7 @@ public enum ExceptionStatus {
     SERVER_ERROR(500, "관리자에게 문의 하세요"),
     COMMENT_IS_NOT_EXIST(404, " 댓글이 존재하지 않습니다. "),
     BOARD_IS_NOT_EXIST(404, " 게시물이 존재하지 않습니다. "),
+    PAGINATION_IS_NOT_EXIST(404,"요청하신 페이지 내역이 존재하지 않습니다."),
 
     AUTHENTICATION_EXCEPTION(500, " 인증 실패에 따른 예외가 발생했습니다. "),
     ACCESSDENIED_EXCEPTION(500, " 인가에 따른 예외가 발생했습니다. "),

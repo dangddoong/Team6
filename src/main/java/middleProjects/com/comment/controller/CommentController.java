@@ -29,7 +29,6 @@ public class CommentController {
     }
     @GetMapping("/comments/{boardId}/pagination/{pageChoice}")
     public List<CommentResponseDto> getCommentListToPagination(@PathVariable Long boardId, @PathVariable int pageChoice){
-        if(pageChoice < 1){throw new IllegalArgumentException("잘못된 페이지 접근입니다.");}
         return commentServiceImpl.getCommentListToPagination(pageChoice, boardId);
     }
 
