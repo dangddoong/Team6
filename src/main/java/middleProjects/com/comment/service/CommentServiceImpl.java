@@ -69,6 +69,7 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long commentId, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
         comment.memberAndCommentWriterEqualCheck(member.getId());
+        commentRecommendationRepository.deleteAllByCommentId(commentId);
         commentRepository.deleteById(commentId);
     }
 

@@ -12,7 +12,5 @@ public interface CommentRecommendationRepository extends JpaRepository<CommentRe
 
     Optional<CommentRecommendation> findByMemberAndCommentId(Member member, Long commentId);
     Long countByComment(Comment comment);
-
-//    Long deleteCommentRecommendationByComment();
-
+    void deleteAllByCommentId(Long commentId);
 }
