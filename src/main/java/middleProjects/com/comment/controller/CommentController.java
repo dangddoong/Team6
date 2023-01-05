@@ -69,9 +69,9 @@ public class CommentController {
 //        return commentServiceImpl.adminUpdateComment(commentId, comment);
 //    }
 
-    @GetMapping("/comments/{id}")
-    public ResponseEntity<jjCommentsResponseDto> getCommentOne(@PathVariable Long id) {
-        jjCommentsResponseDto data = commentServiceImpl.getOne(id);
-        return ResponseEntity.status(200).body(data);
-    }
+//    @GetMapping("/comments/{id}")
+//    public ResponseEntity<jjCommentsResponseDto> getCommentOne(@PathVariable Long id) {
+//        jjCommentsResponseDto data = commentServiceImpl.getOne(id);
+//        return ResponseEntity.status(200).body(data);
+//    }
 }

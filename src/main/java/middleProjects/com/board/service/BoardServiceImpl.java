@@ -115,7 +115,13 @@ public class BoardServiceImpl implements BoardService {
         board.updateBoard(boardRequestDto);
         boardRepository.save(board);
         Long boardRecommendCount = boardRecommendationRepository.countByBoardId(boardId);
-        return new UpdateBoardResponseDto(board, boardRecommendCount);
+        Page<Comment> commentPage = commentRepository.findAllByBoardId(boardId, pageableSetting(1));
+        List<CommentResponseDto> commentList = new ArrayList<>();
+        for (Comment comment : commentPage) {
+            Long commentRecommendCount = commentRecommendationRepository.countByComment(comment);
+            commentList.add(new CommentResponseDto(comment, commentRecommendCount));
+        }
+        return new UpdateBoardResponseDto(board, boardRecommendCount, commentList);
     }
 
 

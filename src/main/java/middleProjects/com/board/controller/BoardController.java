@@ -43,8 +43,8 @@ public class BoardController {
     }
 
     @PutMapping("/{boardId}") //게시글 수정
-    public ResponseEntity<UpdateBoardResponseDto> updateBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto updateBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
-        return new ResponseEntity<>( boardServiceImpl.updateBoard(boardId, updateBoardRequestDto, memberDetails.getMember()),HttpStatus.OK);
+    public UpdateBoardResponseDto updateBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto updateBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+        return boardServiceImpl.updateBoard(boardId, updateBoardRequestDto, memberDetails.getMember());
     }
 
     @DeleteMapping("/{boardId}") //게시글 삭제

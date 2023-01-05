@@ -67,6 +67,7 @@ public class Comment extends BaseEntity {
         this.contents = comment;
         this.board = board;
         this.member=member;
+        board.getComments().add(this);
         this.parent=commentParentId;
     }
 
