@@ -66,7 +66,7 @@ public class BoardServiceImpl implements BoardService {
         if(pageChoice < 1) { throw new IllegalArgumentException("잘못된 페이지 접근입니다.");}
         Page<Board> boardPage = boardRepository.findAll(pageableSetting(pageChoice));
         if(boardPage.isEmpty()) {
-            throw new IllegalArgumentException("요청하신 페이지가 없습니다.");
+            throw new CustomException(ExceptionStatus.PAGINATION_IS_NOT_EXIST);
         }
         List<GetBoardResponseDto> getBoardResponseDtoList = new ArrayList<>();
         for(Board board: boardPage){
