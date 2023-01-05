@@ -11,7 +11,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findAllByBoardIdOrderByModDateDesc(Long boardId);
-    Page<Comment> findAllByBoard(Board board, Pageable pageable);
+    Page<Comment> findAllByBoardId(Long boardId, Pageable pageable);
 
     List<Comment> findAllByBoard(Board board);
 

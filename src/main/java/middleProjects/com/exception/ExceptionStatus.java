@@ -19,7 +19,8 @@ public enum ExceptionStatus {
     BOARD_IS_NOT_EXIST(404, " 게시물이 존재하지 않습니다. "),
 
     AUTHENTICATION_EXCEPTION(500, " 인증 실패에 따른 예외가 발생했습니다. "),
-    ACCESSDENIED_EXCEPTION(500, " 인가에 따른 예외가 발생했습니다. ");
+    ACCESSDENIED_EXCEPTION(500, " 인가에 따른 예외가 발생했습니다. "),
+    MYMYMYMYMYMY(501, "MYMYMYMYMY");
 
 
     private final int statusCode;

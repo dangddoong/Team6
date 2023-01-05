@@ -22,4 +22,7 @@ public interface CommentRecommendationRepository extends JpaRepository<CommentRe
 
     Long deleteByComment(Comment comment);
 
+
+    void deleteAllByCommentId(Long commentId);
+
 }

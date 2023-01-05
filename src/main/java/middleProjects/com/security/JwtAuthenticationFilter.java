@@ -2,7 +2,8 @@ package middleProjects.com.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import middleProjects.com.exception.mymymymyException;
+import middleProjects.com.exception.CustomException;
+import middleProjects.com.exception.ExceptionStatus;
 import org.json.JSONObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,11 +31,11 @@ public class JwtAuthenticationFilter extends GenericFilter {
         } catch (RuntimeException e) {
             // 확인한 첫번째 -> 이건 예외가 아니다?  예외는 다른 곳에서 터진다
             log.info("문제인문제인");
-            HttpServletResponse realResponse = (HttpServletResponse) response;
-//            log.error("e = {}", e.getMessage());
-            realResponse.setContentType("application/json;charset=UTF-8");
-            realResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            throw new mymymymyException("ddd");
+//            HttpServletResponse realResponse = (HttpServletResponse) response;
+////            log.error("e = {}", e.getMessage());
+//            realResponse.setContentType("application/json;charset=UTF-8");
+//            realResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            throw new CustomException(ExceptionStatus.MYMYMYMYMYMY);
 //            JSONObject responseJson = new JSONObject();
 //            responseJson.put("message", e.getMessage());
 //            responseJson.put("code", 400);

@@ -17,7 +17,7 @@ public class CommentRecommendation {
     @JoinColumn(name = "member_id",nullable = false)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id", nullable = false)
     private Comment comment;
 

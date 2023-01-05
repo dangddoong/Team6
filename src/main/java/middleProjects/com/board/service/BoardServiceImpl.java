@@ -50,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
         List<RetrieveBoardResponseDto> retrieveBoardResponseDtoList = new ArrayList<>();
 
         for (Board board : boardPage) {
-            Page<Comment> commentPage = commentRepository.findAllByBoard(board, pageableSetting(1));
+            Page<Comment> commentPage = commentRepository.findAllByBoardId(board.getId(), pageableSetting(1));
             List<CommentResponseDto> commentList = new ArrayList<>();
             for (Comment comment : commentPage) {
                 Long commentRecommendCount = commentRecommendationRepository.countByComment(comment);
@@ -79,7 +79,7 @@ public class BoardServiceImpl implements BoardService {
     public RetrieveBoardResponseDto retrieveBoard(Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
 
-        Page<Comment> commentPage = commentRepository.findAllByBoard(board, pageableSetting(1));
+        Page<Comment> commentPage = commentRepository.findAllByBoardId(boardId, pageableSetting(1));
         List<CommentResponseDto> commentList = new ArrayList<>();
         for (Comment comment : commentPage) {
             Long commentRecommendCount = commentRecommendationRepository.countByComment(comment);
@@ -131,8 +131,6 @@ public class BoardServiceImpl implements BoardService {
         }
         boardRecommendationRepository.delete(optionalBoardRecommend.get());
     }
-
-
 
     public Pageable pageableSetting(int pageChoice) {
         Sort.Direction direction = Sort.Direction.DESC;

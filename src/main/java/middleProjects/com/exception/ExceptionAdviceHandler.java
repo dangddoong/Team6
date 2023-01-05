@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestControllerAdvice
 public class ExceptionAdviceHandler {
@@ -18,14 +17,15 @@ public class ExceptionAdviceHandler {
         return new ResponseEntity(new ErrorDto(ex.getExceptionStatus().getStatusCode(), ex.getExceptionStatus().getMessage()), HttpStatus.valueOf(ex.getExceptionStatus().getStatusCode()));
     }
 
-    @ExceptionHandler(mymymymyException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected ResponseEntity CustomMyException(CustomException ex){
-        return new ResponseEntity(new ErrorDto(ex.getExceptionStatus().getStatusCode(), ex.getExceptionStatus().getMessage()), HttpStatus.valueOf(ex.getExceptionStatus().getStatusCode()));
-    }
 //    @ExceptionHandler({CustomException.class})
-//    @ResponseStatus(INTERNAL_SERVER_ERROR)
-//    protected ResponseEntity CustomAccessDeniedHandler(CustomException ex) {
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    protected ResponseEntity CustomMyException(CustomException ex){
 //        return new ResponseEntity(new ErrorDto(ex.getExceptionStatus().getStatusCode(), ex.getExceptionStatus().getMessage()), HttpStatus.valueOf(ex.getExceptionStatus().getStatusCode()));
 //    }
+
+    @ExceptionHandler({RuntimeException.class})
+    protected ResponseEntity<String> handleEtcException(RuntimeException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }

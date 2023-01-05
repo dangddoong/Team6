@@ -46,7 +46,6 @@ public class AdminServiceImpl implements AdminService {
         Board board = boardRepository.findById(id).orElseThrow(()->new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
         boardRecommendationRepository.deleteByBoard(board);
         boardRepository.delete(board); // 정당한 방식이 아니라고 생각한다 -> 한 번 고민해보고, 한번 여쭤보자... (김지환), 단지 데이터를 지우기 위해 양방향으로?...
-
         /**
          // 보류 ....
          //        List<Comment> commentList = commentRepository.findAllByBoard(board); // 해당 게시물에 댓글 찾아오기. // 이걸 리스트로 뽑아오는게 맞나?

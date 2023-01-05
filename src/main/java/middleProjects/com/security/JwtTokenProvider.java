@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import middleProjects.com.exception.CustomException;
 import middleProjects.com.exception.ExceptionStatus;
-import middleProjects.com.exception.mymymymyException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -103,7 +102,7 @@ public class JwtTokenProvider {
             return true;
         } catch (RuntimeException  ex) {
             log.info("감스트감스트");
-            throw new mymymymyException();
+            throw new CustomException(ExceptionStatus.MYMYMYMYMYMY);
           // 다른 코드에서도 여기엔 false로 반환한다. -> 실패시?
         }
     }
