@@ -40,4 +40,10 @@ public class AdminController {
         return HttpStatus.OK;
     }
 
+    @PostMapping("addRole/{id}")
+    public HttpStatus addRole(@PathVariable Long id){
+        adminServiceImpl.addRole(id);
+        return HttpStatus.CREATED;
+    }
+
 }

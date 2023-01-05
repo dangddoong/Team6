@@ -102,10 +102,8 @@ public class JwtTokenProvider {
             return true;
         } catch (RuntimeException  ex) {
             log.info("감스트감스트");
-            throw new CustomException(ExceptionStatus.MYMYMYMYMYMY);
+            return false;
           // 다른 코드에서도 여기엔 false로 반환한다. -> 실패시?
         }
     }
-
-
 }

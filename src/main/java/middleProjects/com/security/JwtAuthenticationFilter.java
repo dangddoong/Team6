@@ -28,20 +28,10 @@ public class JwtAuthenticationFilter extends GenericFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
             chain.doFilter(request, response);
-        } catch (RuntimeException e) {
+        } catch (RuntimeException exception) {
             // 확인한 첫번째 -> 이건 예외가 아니다?  예외는 다른 곳에서 터진다
-            log.info("문제인문제인");
-//            HttpServletResponse realResponse = (HttpServletResponse) response;
-////            log.error("e = {}", e.getMessage());
-//            realResponse.setContentType("application/json;charset=UTF-8");
-//            realResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            throw new CustomException(ExceptionStatus.MYMYMYMYMYMY);
-//            JSONObject responseJson = new JSONObject();
-//            responseJson.put("message", e.getMessage());
-//            responseJson.put("code", 400);
-//
-//            realResponse.getWriter().print(responseJson);
-
+            log.info("대통령");
+            exception.printStackTrace();
         }
     }
 
