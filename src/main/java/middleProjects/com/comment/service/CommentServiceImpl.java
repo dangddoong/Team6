@@ -5,6 +5,8 @@ import middleProjects.com.comment.dto.CommentResponseDto;
 import middleProjects.com.comment.dto.CreateCommentResponseDto;
 import middleProjects.com.comment.entity.Comment;
 import middleProjects.com.comment.entity.CommentRecommendation;
+import middleProjects.com.exception.CustomException;
+import middleProjects.com.exception.ExceptionStatus;
 import middleProjects.com.member.entity.Member;
 import middleProjects.com.board.repository.BoardRepository;
 import middleProjects.com.comment.repository.CommentRecommendationRepository;
@@ -33,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public CreateCommentResponseDto createComment(Long boardId, String contents, Member member) {
-        Board board = boardRepository.findById(boardId).orElseThrow(IllegalArgumentException::new);
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new CustomException(ExceptionStatus.BOARD_IS_NOT_EXIST));
         Comment comment = new Comment(contents, board, member);
         commentRepository.save(comment);
         return new CreateCommentResponseDto(comment);
@@ -54,7 +56,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public CommentResponseDto updateComment(Long commentId, String contents, Member member) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
         comment.memberAndCommentWriterEqualCheck(member.getId());
         comment.updateComment(contents);
         commentRepository.save(comment);
@@ -65,7 +67,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public void deleteComment(Long commentId, Member member) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
         comment.memberAndCommentWriterEqualCheck(member.getId());
         commentRepository.deleteById(commentId);
     }
@@ -74,7 +76,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public void recommendComment(Long commentId, Member member) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
         Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(member, commentId);
         if (optionalCommentRecommend.isPresent()) {
             throw new IllegalArgumentException("이미 좋아요를 누르셨습니다.");
@@ -86,7 +88,6 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public void unRecommendComment(Long commentId, Member member) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
         Optional<CommentRecommendation> optionalCommentRecommend = commentRecommendationRepository.findByMemberAndCommentId(member, commentId);
         if (!optionalCommentRecommend.isPresent()) {
             throw new IllegalArgumentException("좋아요를 누르신 적이 없습니다.");

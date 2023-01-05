@@ -17,6 +17,12 @@ public class ExceptionAdviceHandler {
     protected ResponseEntity handleCustomException(CustomException ex) {
         return new ResponseEntity(new ErrorDto(ex.getExceptionStatus().getStatusCode(), ex.getExceptionStatus().getMessage()), HttpStatus.valueOf(ex.getExceptionStatus().getStatusCode()));
     }
+
+    @ExceptionHandler({RuntimeException.class})
+    protected ResponseEntity<String> handleEtcException(RuntimeException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 //    @ExceptionHandler({CustomException.class})
 //    @ResponseStatus(INTERNAL_SERVER_ERROR)
 //    protected ResponseEntity CustomAccessDeniedHandler(CustomException ex) {
