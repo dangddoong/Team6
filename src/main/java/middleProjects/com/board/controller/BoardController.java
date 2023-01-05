@@ -10,7 +10,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,9 +19,8 @@ public class BoardController {
     private final BoardServiceImpl boardServiceImpl;
 
     @PostMapping("/") //게시글 작성
-    public ResponseEntity<String> createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
-        boardServiceImpl.createBoard(createBoardRequestDto, memberDetails.getMember());
-        return new ResponseEntity<>("게시글 생성 완료", HttpStatus.OK);
+    public ResponseEntity<CreateBoardResponseDto> createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+        return new ResponseEntity<>(boardServiceImpl.createBoard(createBoardRequestDto, memberDetails.getMember()), HttpStatus.OK);
     }
 
     @GetMapping("/") //전체 게시글 조회
@@ -37,27 +35,27 @@ public class BoardController {
 
     @GetMapping("/pagination/{pageChoice}") //게시물 페이징 조회(10개단위로 나뉨)
     public List<GetBoardResponseDto> getBoardListToPagination(@PathVariable int pageChoice) {
-        if(pageChoice < 1){throw new IllegalArgumentException("잘못된 페이지 접근입니다.");}
         return boardServiceImpl.getBoardListToPagination(pageChoice);
     }
 
     @PutMapping("/{boardId}") //게시글 수정
-    public UpdateBoardResponseDto updateBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto updateBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
-        return boardServiceImpl.updateBoard(boardId, updateBoardRequestDto, memberDetails.getMember());
+    public ResponseEntity<UpdateBoardResponseDto> updateBoard(@PathVariable Long boardId, @RequestBody UpdateBoardRequestDto updateBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+        return new ResponseEntity<>( boardServiceImpl.updateBoard(boardId, updateBoardRequestDto, memberDetails.getMember()),HttpStatus.OK);
     }
 
     @DeleteMapping("/{boardId}") //게시글 삭제
-    public void deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetails memberDetails) {
+    public ResponseEntity<String> deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetails memberDetails) {
         boardServiceImpl.deleteBoard(boardId, memberDetails.getMember());
+        return new ResponseEntity<>("게시글 삭제 완료",HttpStatus.OK);
     }
 
-    @PostMapping("/recommendation/{boardId}")
+    @PostMapping("/recommendation/{boardId}") //게시글 좋아요
     public ResponseEntity<String> recommendBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetails memberDetails) {
         boardServiceImpl.recommendBoard(boardId, memberDetails.getMember());
         return new ResponseEntity<>("게시물 좋아요 완료", HttpStatus.CREATED);
     }
 
-    @PostMapping("/unrecommendation/{boardId}")
+    @PostMapping("/unrecommendation/{boardId}") //게시글 좋아요 취소
     public ResponseEntity<String> unRecommendBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetails memberDetails) {
         boardServiceImpl.unRecommendBoard(boardId, memberDetails.getMember());
         return new ResponseEntity<>("게시물 좋아요 취소완료", HttpStatus.OK);
