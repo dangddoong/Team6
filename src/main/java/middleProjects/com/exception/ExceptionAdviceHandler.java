@@ -23,9 +23,9 @@ public class ExceptionAdviceHandler {
 //        return new ResponseEntity(new ErrorDto(ex.getExceptionStatus().getStatusCode(), ex.getExceptionStatus().getMessage()), HttpStatus.valueOf(ex.getExceptionStatus().getStatusCode()));
 //    }
 
-    @ExceptionHandler({RuntimeException.class})
-    protected ResponseEntity<String> handleEtcException(RuntimeException e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
+//    @ExceptionHandler({RuntimeException.class})
+//    protected ResponseEntity<String> handleEtcException(RuntimeException e){
+//        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//    }
 
 }

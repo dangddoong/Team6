@@ -1,6 +1,7 @@
 package middleProjects.com.board.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import middleProjects.com.board.dto.*;
 import middleProjects.com.board.service.BoardServiceImpl;
 import middleProjects.com.security.members.MemberDetails;
@@ -15,12 +16,14 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/boards")
+@Slf4j
 public class BoardController {
 
     private final BoardServiceImpl boardServiceImpl;
 
     @PostMapping("/") //게시글 작성
     public ResponseEntity<String> createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+        log.info(memberDetails.getMember().toString());
         boardServiceImpl.createBoard(createBoardRequestDto, memberDetails.getMember());
         return new ResponseEntity<>("게시글 생성 완료", HttpStatus.OK);
     }
