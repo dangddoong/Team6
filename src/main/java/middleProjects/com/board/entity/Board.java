@@ -29,9 +29,6 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
-    // 조성현 - OneToMany는 신중하게 - 일단 주석처리했습니다.
-//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-//    List<BoardRecommendation> boardRecommendationList = new ArrayList<>();
 
     public Board(String title, String content, Member member) {
         this.title = title;

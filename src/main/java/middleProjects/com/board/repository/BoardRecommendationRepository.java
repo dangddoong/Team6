@@ -12,5 +12,7 @@ public interface BoardRecommendationRepository extends JpaRepository<BoardRecomm
     Long countByBoardId(Long boardId);
 
     // board 삭제? 우선 board 좋아요 삭제해야함.
-    Long deleteByBoard(Board board);
+//    Long deleteByBoard(Board board);
+
+    void deleteByBoard(Board board);
 }

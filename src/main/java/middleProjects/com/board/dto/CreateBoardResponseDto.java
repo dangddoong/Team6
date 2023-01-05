@@ -13,9 +13,7 @@ public class CreateBoardResponseDto {
     private final String username;
     private final String content;
     private final LocalDateTime createDate;
-    private final LocalDateTime modDate;
 
-    private final Long recommendCount = 0L;
 
     public CreateBoardResponseDto(Board board) {
         this.id = board.getId();
@@ -23,7 +21,6 @@ public class CreateBoardResponseDto {
         this.username = board.getMember().getUsername();
         this.content = board.getContent();
         this.createDate = board.getCreateDate();
-        this.modDate = board.getModDate();
-//        this.recommendCount = board.getRecommendCount();
+                                                                                                   
     }
-}
+}                                                          
