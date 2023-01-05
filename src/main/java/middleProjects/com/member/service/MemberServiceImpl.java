@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     @Transactional
     public RegisterResponseDto login(LoginRegisterDto loginRegisterDto) {
-        Member member = memberRepository.findByUsername(loginRegisterDto.getUsername()).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findByUsername(loginRegisterDto.getUsername()).orElseThrow(()->new CustomException(ExceptionStatus.MEMBER_IS_NOT_EXIST));
         checkByMemberPassword(loginRegisterDto, member);
         member.updateRefreshToken(jwtTokenProvider.createRefreshToken());
         return RegisterResponseDto.of(member, jwtTokenProvider.createToken(member.getUsername()));
@@ -68,13 +68,13 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void checkByMemberPassword(LoginRegisterDto loginRegisterDto, Member member) {
         if(!passwordEncoder.matches(loginRegisterDto.getPassword(), member.getPassword()))
-            throw new RuntimeException(" 비밀번호가 틀렸습니다 다시한번 확인해주세요.");
+            throw new CustomException(ExceptionStatus.PASSWORD_WRONG_EXCEPTION);
     }
 
     @Override
     public List<BoardResponseDto> getMyBoard(String username) {
         List<BoardResponseDto> boardList = new ArrayList<>();
-        List<Board> getMyBoards = boardRepository.findByMember(username).orElseThrow(IllegalArgumentException::new);
+        List<Board> getMyBoards = boardRepository.findByMember(username).orElseThrow(()->new CustomException(ExceptionStatus.BOARD_IS_NOT_EXIST));
         getMyBoards.forEach(e-> boardList.add(BoardResponseDto.of(e)));
         return boardList;
     }

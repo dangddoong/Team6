@@ -22,14 +22,16 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name="userId")
+    @Column(name="userId", nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String nickName;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(name="userPw")
+    @Column(name="userPw", nullable = false)
     private String password;
 
     private String refreshToken;

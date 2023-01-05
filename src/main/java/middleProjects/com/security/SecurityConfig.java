@@ -26,13 +26,14 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        // h2-console 사용 및 resources 접근 허용 설정
-//        return (web) -> web.ignoring()
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        // h2-console 사용 및 resources 접근 허용 설정
+        return (web) -> web.ignoring()
+                .antMatchers("/api/members/**");
 //                .requestMatchers(PathRequest.toH2Console())
 //                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-//    }
+    }
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -43,7 +44,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/members/**").permitAll()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()

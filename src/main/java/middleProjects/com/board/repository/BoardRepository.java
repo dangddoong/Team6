@@ -16,6 +16,6 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
 
     Page<Board> findAll(Pageable pageable);
 
-    @Query("select b from Board b join Member m on b.member.username=m.username where b.member.username=:username")
+    @Query("select b from Board b join Member m on b.member.username=m.username where b.member.username=:username order by b.createDate desc ")
     Optional<List<Board>> findByMember(@Param("username") String username);
 }

@@ -30,14 +30,13 @@ public class Board extends BaseEntity {
     private Member member;
 
     @OneToMany(mappedBy = "board",cascade = CascadeType.REMOVE)
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>(); // 양방향
 
 
     public Board(String title, String content, Member member) {
         this.title = title;
         this.content = content;
         this.member = member;
-
     }
     /**
      // 김지환 주석 추가

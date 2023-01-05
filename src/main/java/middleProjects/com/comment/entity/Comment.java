@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-//@ToString(exclude = {"childs"})
 public class Comment extends BaseEntity {
 
     @Id
@@ -36,11 +35,10 @@ public class Comment extends BaseEntity {
     // 어떠한 방식이 좋을까..
 //    @ManyToOne(fetch=FetchType.LAZY)
 //    @JoinColumn(name="parent_id")
+//    @OneToMany(mappedBy = "comment")
+//    private List<Reply> commentList = new ArrayList<>();
+
     private Long parent;
-
-//    @OneToMany(mappedBy = "parent")
-//    private List<Comment> childs = new ArrayList<>();
-
 
     // 일반 게시글 작성
     public Comment(String contents, Board board, Member member ){
@@ -60,8 +58,7 @@ public class Comment extends BaseEntity {
     public void updateComment(String contents) {
         this.contents = contents;
     }
-    // 순서 : boardid,사용자, 그리고 내용
-    // 대댓글 작성
+
 
     public Comment(String comment,Board board, Member member, Long commentParentId){
         this.contents = comment;

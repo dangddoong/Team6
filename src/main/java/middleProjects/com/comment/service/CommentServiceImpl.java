@@ -7,7 +7,7 @@ import middleProjects.com.board.repository.BoardRepository;
 import middleProjects.com.comment.dto.CommentResponseDto;
 import middleProjects.com.comment.dto.CreateCommentResponseDto;
 import middleProjects.com.comment.dto.ReplyRequestDto;
-import middleProjects.com.comment.dto.jjCommentsResponseDto;
+import middleProjects.com.comment.dto.ReplyResponseDto;
 import middleProjects.com.comment.entity.Comment;
 import middleProjects.com.comment.entity.CommentRecommendation;
 import middleProjects.com.comment.repository.CommentRecommendationRepository;
@@ -120,15 +120,10 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(reply);
     }
 
-//    @Override
-//    public jjCommentsResponseDto getOne(Long id) {
-//        // 여기서 넘어온 id는 comment id다 -> 이 comment id는 부모 댓글을 의미할 것이다. 그런
-//        Comment comment = commentRepository.findById(id).orElseThrow(()->new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
-//        if(comment.getParent()==0){
-//
-//        }else{
-//            throw new IllegalStateException("오류오류오류!!!!");
-//        }
-//    }
+    @Override
+    public ReplyResponseDto getOne(Long id) {
+        return null;
+    }
+
 }
 

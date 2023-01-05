@@ -23,14 +23,18 @@ public class JwtAuthenticationFilter extends GenericFilter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         try {
             String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-            if (token != null && jwtTokenProvider.validateTokenExpiration(token)) {
+            log.info("ddddd");
+            if (token != null) {
+                jwtTokenProvider.validateTokenExpiration(token);
                 Authentication auth = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
             chain.doFilter(request, response);
         } catch (RuntimeException exception) {
-            // 확인한 첫번째 -> 이건 예외가 아니다?  예외는 다른 곳에서 터진다
-            log.info("대통령");
+            // 여긴 스프링 영역이 아니다.
+            // 서블릿 리퀘스트, 디스패처 서블릿
+            HttpServletResponse h = (HttpServletResponse) response;
+            h.setStatus(401);
             exception.printStackTrace();
         }
     }

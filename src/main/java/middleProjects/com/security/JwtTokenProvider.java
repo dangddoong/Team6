@@ -93,16 +93,12 @@ public class JwtTokenProvider {
         return null;
     }
 
-    // 토큰의 유효성 검사
-    public boolean validateTokenExpiration(String token) {
+    // 토큰의 유효성 검사 -> void(v)
+    public void validateTokenExpiration(String token) {
         try {
-            log.info("문제야문제222"); // 여긴 탄다.
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token); //여기서 문제가 발생한다
-            log.info("문제야문제"); // 이 놈은 터질리 없지~~
-            return true;
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
         } catch (RuntimeException  ex) {
-            log.info("감스트감스트");
-            return false;
+            throw new IllegalStateException("해줘");
           // 다른 코드에서도 여기엔 false로 반환한다. -> 실패시?
         }
     }

@@ -14,6 +14,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
      // 인증에 관한
-        response.sendRedirect("/exception/entry");
+        response.setStatus(403);
     }
 }
