@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -24,6 +26,11 @@ public class CommentController {
         String contents = commentRequestDto.getComment();
 
         return commentServiceImpl.createComment(boardId, contents, memberDetails.getMember());
+    }
+    @GetMapping("/comments/{boardId}/pagination/{pageChoice}")
+    public List<CommentResponseDto> getCommentListToPagination(@PathVariable Long boardId, @PathVariable int pageChoice){
+        if(pageChoice < 1){throw new IllegalArgumentException("잘못된 페이지 접근입니다.");}
+        return commentServiceImpl.getCommentListToPagination(pageChoice, boardId);
     }
 
     @PutMapping("/comments/{commentId}")

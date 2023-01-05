@@ -10,10 +10,16 @@ import middleProjects.com.board.repository.BoardRepository;
 import middleProjects.com.comment.repository.CommentRecommendationRepository;
 import middleProjects.com.comment.repository.CommentRepository;
 import middleProjects.com.member.repository.MemberRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import middleProjects.com.board.entity.Board;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,12 +41,24 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
+    public List<CommentResponseDto> getCommentListToPagination(int pageChoice, Long boardId){
+        Page<Comment> commentPage = commentRepository.findAllByBoardId(boardId, pageableSetting(pageChoice));
+        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+        for(Comment comment: commentPage){
+            Long recommendCount = commentRecommendationRepository.countByComment(comment);
+            commentResponseDtoList.add(new CommentResponseDto(comment, recommendCount));
+        }
+        return commentResponseDtoList;
+    }
+
+    @Transactional
+    @Override
     public CommentResponseDto updateComment(Long commentId, String contents, Member member) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(IllegalArgumentException::new);
         comment.memberAndCommentWriterEqualCheck(member.getId());
         comment.updateComment(contents);
         commentRepository.save(comment);
-        Long commentRecommendationCount = commentRecommendationRepository.countByCommentId(commentId);
+        Long commentRecommendationCount = commentRecommendationRepository.countByComment(comment);
         return new CommentResponseDto(comment, commentRecommendationCount);
     }
 
@@ -75,15 +93,11 @@ public class CommentServiceImpl implements CommentService {
         }
         commentRecommendationRepository.delete(optionalCommentRecommend.get());
     }
-<<<<<<< HEAD
-
-    // 이런식으로 findBy 메서드 만들어서 코드 정리를 해볼게요.(성현)s
-=======
-    // 이런식으로 findBy 메서드 만들어서 코드 정리를 해볼게요.(성현)s -> 좋지 않음
->>>>>>> bebe57ea432e853b1940ac28a61229089366c66f
-//    private Board findBoardByBoardId(Long boardId){
-//        return boardRepository.findById(boardId).orElseThrow(IllegalArgumentException::new);
-//    }
-
+    public Pageable pageableSetting(int pageChoice) {
+        Sort.Direction direction = Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, "modDate");
+        Pageable pageable = PageRequest.of(pageChoice-1, 10, sort);
+        return pageable;
+    }
 }
 

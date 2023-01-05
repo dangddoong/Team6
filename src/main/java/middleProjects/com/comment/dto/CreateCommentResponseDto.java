@@ -6,6 +6,7 @@ import middleProjects.com.comment.entity.Comment;
 import java.time.LocalDateTime;
 @Getter
 public class CreateCommentResponseDto {
+    private final Long boardId;
     private final Long commentId;
     private final String comment;
     private final String commentWriter;
@@ -15,6 +16,7 @@ public class CreateCommentResponseDto {
 
 
     public CreateCommentResponseDto(Comment comment){
+        this.boardId = comment.getBoard().getId();
         this.commentId = comment.getId();
         this.comment = comment.getContents();
         this.commentWriter = comment.getMember().getUsername();

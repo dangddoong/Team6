@@ -36,8 +36,9 @@ public class BoardController {
     }
 
     @GetMapping("/pagination/{pageChoice}") //게시물 페이징 조회(10개단위로 나뉨)
-    public List<GetBoardResponseDto> getBoardListToPagination(@PathVariable Optional<Integer> pageChoice) {
-        return boardServiceImpl.getBoardListToPagination(pageChoice.orElse(1));
+    public List<GetBoardResponseDto> getBoardListToPagination(@PathVariable int pageChoice) {
+        if(pageChoice < 1){throw new IllegalArgumentException("잘못된 페이지 접근입니다.");}
+        return boardServiceImpl.getBoardListToPagination(pageChoice);
     }
 
     @PutMapping("/{boardId}") //게시글 수정
