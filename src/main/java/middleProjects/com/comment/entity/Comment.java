@@ -31,6 +31,9 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "userIds", nullable = false)
     private Member member;
 
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE)
+    private List<CommentRecommendation> recommendations = new ArrayList<>();
+
     public Comment(String contents, Board board, Member member ){
         this.contents = contents;
         this.board = board;

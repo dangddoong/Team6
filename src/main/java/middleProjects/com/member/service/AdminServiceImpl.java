@@ -1,6 +1,7 @@
 package middleProjects.com.member.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import middleProjects.com.board.entity.Board;
 import middleProjects.com.board.repository.BoardRecommendationRepository;
 import middleProjects.com.board.repository.BoardRepository;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class AdminServiceImpl implements AdminService {
 
     private final MemberRepository memberRepository;
@@ -42,18 +44,31 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public void deleteMemberBoard(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(()->new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
-        // 사용자가 삭제할 board의 게시물을 들고와서 (파라미터로 넘어온 id값은 내가 지우고자하는 board)->
-        // -> 우선  이 board가지고 comment List를 찾아야 한다
-        List<Comment> commentList =commentRepository.findAllByBoard(board);
-        commentList.forEach(data -> commentRecommendationRepository.findById(data.getId()));
-        commentRepository.deleteByBoard(board);
-        boardRepository.delete(board);
+        boardRecommendationRepository.deleteByBoard(board);
+        boardRepository.delete(board); // 정당한 방식이 아니라고 생각한다 -> 한 번 고민해보고, 한번 여쭤보자... (김지환), 단지 데이터를 지우기 위해 양방향으로?...
+
+        /**
+         // 보류 ....
+         //        List<Comment> commentList = commentRepository.findAllByBoard(board); // 해당 게시물에 댓글 찾아오기. // 이걸 리스트로 뽑아오는게 맞나?
+         //        commentList.forEach(data -> log.info(data.getId().toString())); // 해당 게시물 몇번인지 확인
+         //        log.info("헝그리정신");
+         //        commentList.forEach(data -> commentRecommendationRepository.deleteByComment(data));
+         //        log.info("기미상궁");
+         //        commentRepository.deleteByBoard(board);
+         //        log.info("배고프다");
+         //        boardRepository.delete(board);
+
+         //        commentList.forEach(data -> commentRecommendationRepository.deleteByCommentId(data.getId())); // 이제 해당 게시물들에 붙은 좋아요를 지워야 함.
+         */
+
     }
 
     @Override
     @Transactional
     public void deleteMemberComment(Long id){
         Comment comment = commentRepository.findById(id).orElseThrow(()->new CustomException(ExceptionStatus.COMMENT_IS_NOT_EXIST));
+        commentRecommendationRepository.deleteByComment(comment);
+        commentRepository.delete(comment);
     }
 
 

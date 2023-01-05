@@ -132,13 +132,9 @@ public class BoardServiceImpl implements BoardService {
         boardRecommendationRepository.delete(optionalBoardRecommend.get());
     }
 
-<<<<<<< HEAD
-    public Pageable pageableSetting() {
-=======
 
 
     public Pageable pageableSetting(int pageChoice) {
->>>>>>> bebe57ea432e853b1940ac28a61229089366c66f
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, "modDate");
         Pageable pageable = PageRequest.of(pageChoice-1, 10, sort);
