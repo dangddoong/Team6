@@ -44,7 +44,11 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public List<CommentResponseDto> getCommentListToPagination(int pageChoice, Long boardId){
+        if(pageChoice < 1){throw new IllegalArgumentException("잘못된 페이지 접근입니다.");}
         Page<Comment> commentPage = commentRepository.findAllByBoardId(boardId, pageableSetting(pageChoice));
+        if(commentPage.isEmpty()) {
+            throw new CustomException(ExceptionStatus.PAGINATION_IS_NOT_EXIST);
+        }
         List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
         for(Comment comment: commentPage){
             Long recommendCount = commentRecommendationRepository.countByComment(comment);
