@@ -28,19 +28,19 @@ public class AdminController {
         return ResponseEntity.status(200).body(data);
     }
 
-    @DeleteMapping("/deleteBoard/{id}") // 삭제
+    @DeleteMapping("/deleteBoard/{id}") // 게시글 삭제
     public HttpStatus deleteMemberBoard(@PathVariable Long id) {
         adminServiceImpl.deleteMemberBoard(id);
         return HttpStatus.OK;
     }
 
-    @DeleteMapping("/deleteComment/{id}")
+    @DeleteMapping("/deleteComment/{id}") // 댓글 삭제
     public HttpStatus deleteMemberComment(@PathVariable Long id){
         adminServiceImpl.deleteMemberComment(id);
         return HttpStatus.OK;
     }
 
-    @PostMapping("addRole/{id}")
+    @PostMapping("addRole/{id}")  // 사용자 권한 부여
     public HttpStatus addRole(@PathVariable Long id){
         adminServiceImpl.addRole(id);
         return HttpStatus.CREATED;
