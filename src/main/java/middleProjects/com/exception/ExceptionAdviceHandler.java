@@ -30,8 +30,8 @@ public class ExceptionAdviceHandler {
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    protected ResponseEntity handleMethodArgumentNotValidException(Exception e) {
-        return new ResponseEntity<>("Vaild Error", HttpStatus.BAD_REQUEST);
+    protected ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        return new ResponseEntity<>(e.getBindingResult().getFieldErrors(), HttpStatus.BAD_REQUEST);
     }
 
 
