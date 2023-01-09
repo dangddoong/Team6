@@ -21,10 +21,10 @@ public class BoardController {
     private final BoardServiceImpl boardServiceImpl;
 
     @PostMapping("/") //게시글 작성
-    public ResponseEntity<String> createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
+    public CreateBoardResponseDto createBoard(@RequestBody CreateBoardRequestDto createBoardRequestDto, @AuthenticationPrincipal MemberDetails memberDetails) {
         log.info(memberDetails.getMember().toString());
-        boardServiceImpl.createBoard(createBoardRequestDto, memberDetails.getMember());
-        return new ResponseEntity<>("게시글 생성 완료", HttpStatus.OK);
+        return boardServiceImpl.createBoard(createBoardRequestDto, memberDetails.getMember());
+
     }
 
     @GetMapping("/") //전체 게시글 조회
@@ -50,7 +50,7 @@ public class BoardController {
     @DeleteMapping("/{boardId}") //게시글 삭제
     public ResponseEntity<String> deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal MemberDetails memberDetails) {
         boardServiceImpl.deleteBoard(boardId, memberDetails.getMember());
-        return new ResponseEntity<>("게시글 삭제 완료",HttpStatus.OK);
+        return new ResponseEntity<>("게시글 삭제 완료", HttpStatus.OK);
     }
 
     @PostMapping("/recommendation/{boardId}") //게시글 좋아요
